@@ -30,7 +30,7 @@ export default function BlogClient({ item }: { item: BlogItem }) {
     <>
       <div className=" gap-10 z-50 pointer-events-auto min-h-screen flex flex-col pt-24 pb-16">
         <div
-          className="flex md:flex-col  z-50 max-md:justify-between max-md:px-8 max-md:py-5 gap-10 md:pl-5  md:h-full sticky top-5 max-md:top-10 max-md:w-full max-md:border-b max-md:border-[#000000]
+          className="flex md:flex-col  z-50 max-md:justify-between max-md:px-8 max-md:py-5 gap-10 md:pl-5  md:h-full sticky top-5 max-md:top-0 max-md:w-full max-md:border-b max-md:border-[#000000]
                 max-md:bg-white/10
                 max-md:shadow-lg
                 max-md:backdrop-blur-[5px]
@@ -51,15 +51,6 @@ export default function BlogClient({ item }: { item: BlogItem }) {
               height={20}
               alt=""
               className="cursor-pointer"
-              onClick={() => setSocOpen((prev) => !prev)}
-            />
-            <Image
-              src={menuOpen ? Cross : Burger}
-              width={20}
-              height={20}
-              alt=""
-              className="cursor-pointer"
-              onClick={() => setMenuOpen((prev) => !prev)}
             />
           </div>
 
@@ -85,7 +76,8 @@ export default function BlogClient({ item }: { item: BlogItem }) {
               {item.title}
             </h1>
             <p className="text-base text-[#32404F95] mb-4">
-              {item.category} - {item.date}
+              <span className="text-[#151A23]">{item.category}</span>{" "}
+              <span> &mdash; </span> {item.date}
             </p>
             <div className="z-10">
               {" "}

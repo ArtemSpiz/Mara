@@ -31,7 +31,7 @@ export default function Footer() {
     {
       title: "Work",
       subtitles: [
-        { label: "Portfolio", href: "#portfolio" },
+        { label: "Portfolio", href: "/case-studies" },
         { label: "Rejected Concepts", href: "#rejected-concepts" },
       ],
     },
@@ -57,8 +57,10 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="bg-[#232323]">
-      <div className="px-10 py-10 border-b border-white/10">
+    <footer className="bg-[#232323] relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[url('/noise.png')]" />
+
+      <div className="px-10 relative py-10 border-b z-20 border-white/10">
         {/* Mobile layout */}
         <div className="flex flex-col gap-8 md:hidden">
           {/* 4 titles in a row — above logo */}
@@ -117,7 +119,7 @@ export default function Footer() {
         <div className="hidden md:flex justify-between gap-10">
           <div className="flex flex-col justify-end gap-6">
             <Image src={LogoFooter} width={280} height={75} alt="Logo" />
-            <div className="flex gap-5 items-start">
+            <div className="flex gap-5 items-center">
               <span className="text-white/30 text-sm shrink-0">About</span>
               <p className="text-white/70 text-sm leading-relaxed max-w-[340px]">
                 We help startups and companies design and build digital products
@@ -126,9 +128,9 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="flex gap-12 ">
+          <div className="flex gap-5 justify-between w-full max-w-3xl ">
             {FooterLinks.map((link) => (
-              <div key={link.title} className="flex flex-col gap-4">
+              <div key={link.title} className="flex flex-col gap-3">
                 <span className="text-white/30 text-sm font-medium">
                   {link.title}
                 </span>
@@ -150,7 +152,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="px-10 py-6 flex flex-col md:flex-row items-center gap-4 md:gap-0 md:justify-between">
+      <div className="px-10 z-20 relative py-6 flex flex-col md:flex-row items-center gap-4 md:gap-0 md:justify-between">
         <div className="flex gap-5 items-center">
           <Image
             src={partnerLogo1}

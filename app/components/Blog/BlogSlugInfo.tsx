@@ -19,14 +19,12 @@ function ReadingProgress({
       if (!el) return;
 
       const rect = el.getBoundingClientRect();
-      const elTop = rect.top + window.scrollY;
       const elHeight = el.offsetHeight;
-      const windowHeight = window.innerHeight;
+      const windowCenter = window.innerHeight / 2;
 
-      const scrolled = window.scrollY + windowHeight - elTop;
-      const total = elHeight;
+      const scrolled = windowCenter - rect.top;
+      const percent = Math.min(Math.max((scrolled / elHeight) * 100, 0), 100);
 
-      const percent = Math.min(Math.max((scrolled / total) * 100, 0), 100);
       setProgress(Math.round(percent));
     };
 
@@ -59,19 +57,21 @@ export default function BlogSlugInfo() {
       <div className="flex flex-col gap-6 max-md:relative sticky top-5 self-start max-md:border-b max-md:w-full border-[#151A231A] max-md:pb-5">
         <div className="flex flex-col gap-4">
           <ReadingProgress contentRef={contentRef} />
-          <div className="text-[#32404F] font-sans max-md:hidden">12312312</div>
+          <div className="text-[#32404F] font-sans ">12312312</div>
           <div className="font-sans text-sm">
             <div className="text-[#151A23]">Author: Theresa W.</div>
             <div className="text-[#151A2380]">UX Researcher</div>
           </div>
           <div className="max-md:flex max-sm:gap-2 items-center">
-            <div className="text-[#374A5F] font-sans text-sm">Share</div>
+            <div className="text-[#374A5F] font-sans text-sm sm:mb-1">
+              Share
+            </div>
             <Socials />
           </div>
         </div>
 
         <div
-          className="bg-cover bg-center px-4 py-6 flex flex-col w-[200px] gap-3 max-md:hidden"
+          className="bg-cover bg-right px-4 py-8 flex flex-col w-[200px] gap-4 max-md:hidden"
           style={{ backgroundImage: `url(${BgBlogSlug.src})` }}
         >
           <Image src={logoFooter} width={60} height={12} alt="" />
@@ -95,7 +95,7 @@ export default function BlogSlugInfo() {
       {/* Right text content — ref тут */}
       <div
         ref={contentRef}
-        className="flex flex-col gap-3 font-sans text-sm text-[#151A23]"
+        className="flex flex-col gap-3 font-sans max-md:pt-4 text-base text-[#151A23]"
       >
         <span>
           We use KernelBench, a dataset of 250 PyTorch-based classic deep

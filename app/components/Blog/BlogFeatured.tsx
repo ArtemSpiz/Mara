@@ -11,10 +11,11 @@ export function BlogFeatured() {
       <div className="flex gap-5 items-center mx-auto max-w-7xl justify-between">
         <div className="flex flex-col gap-5 flex-1 max-w-[400px]">
           <div className="flex gap-1 items-center text-[#151A2380] font-sans text-sm">
-            <span className="text-[#151A23]">Design</span> - 12, August 2024
+            <span className="text-[#151A23]">Design</span>{" "}
+            <span> &mdash; </span> 12, August 2024
           </div>
           <div className="flex flex-col gap-3">
-            <div className="text-3xl text-[#151A23] font-sans">
+            <div className="text-3xl max-md:text-2xl text-[#151A23] font-sans">
               How to Calculate the Cost of Smart Contract?
             </div>
             <div className="font-display text-[#151A23B2] text-sm">
@@ -25,7 +26,8 @@ export function BlogFeatured() {
             </div>
           </div>
           <div className="flex gap-1 items-center text-[#151A2380] font-sans text-sm">
-            Read - <span className="text-[#151A23]">7 min</span>
+            Read <span> &mdash; </span>{" "}
+            <span className="text-[#151A23]">7 min</span>
           </div>
         </div>
         <div className="max-w-[750px]  flex-2 h-auto max-md:hidden">

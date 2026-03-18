@@ -2,7 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { CASE_STUDIES, type CaseCategory, type CaseStudy } from "./data";
-import type { FilterState, SortOption } from "../../ui/FilterMenu";
+import {
+  FilterMenu,
+  type FilterState,
+  type SortOption,
+} from "../../ui/FilterMenu";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -46,6 +50,7 @@ interface CaseStudiesGridProps {
   page: number;
   itemsPerPage: number;
   onTotalPagesChange: (total: number) => void;
+  onFilterChange: (filter: FilterState) => void;
 }
 
 export function CaseStudiesGrid({
@@ -53,6 +58,7 @@ export function CaseStudiesGrid({
   page,
   itemsPerPage,
   onTotalPagesChange,
+  onFilterChange,
 }: CaseStudiesGridProps) {
   const [listView, setListView] = useState(false);
 
@@ -73,29 +79,38 @@ export function CaseStudiesGrid({
 
   const headingLabel = SORT_LABELS[filter.sort] ?? "Our Latest";
 
+  function getItemSpan(index: number): string {
+    const pattern = [2, 1, 1, 1, 1, 1, 2];
+    const col = pattern[index % pattern.length] ?? 1;
+    return col === 2 ? "md:col-span-2" : "md:col-span-1";
+  }
+
   return (
-    <section className="mx-auto px-12 max-md:px-4 pt-24 max-md:pt-5 pb-16">
+    <section className="mx-auto max-w-[1800px] px-12 max-md:px-4 pt-16 max-md:pt-5 pb-16">
       <div className="mb-12 max-md:mb-5 flex items-center justify-between gap-4">
         <div className="text-3xl font-sans text-[#151A23]">{headingLabel}</div>
+        <FilterMenu right value={filter} onChange={onFilterChange} />
       </div>
 
       <div
         className={`grid gap-x-4 gap-y-5 ${
-          listView ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          listView
+            ? "grid-cols-1"
+            : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 "
         }`}
       >
         {items.map((item, index) => (
           <Link
             href={`/case-studies/${item.slug}`}
             key={item.id}
-            className="group cursor-pointer relative animate-[fadeUp_0.45s_ease_both]"
+            className={`group cursor-pointer relative animate-[fadeUp_0.45s_ease_both] ${getItemSpan(index)}`}
             style={{ animationDelay: `${index * 40}ms` }}
           >
             <div className=" overflow-hidden">
               <Image
                 src={item.image}
                 alt=""
-                className="object-cover transition-transform duration-300 hover:scale-105"
+                className="object-cover max-h-[250px] 2xl:max-h-[300px] w-full transition-transform duration-300 hover:scale-105"
               />
             </div>
 

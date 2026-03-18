@@ -93,7 +93,7 @@ export function ContactSection({ close }: ContactSectionProps) {
 
   const content = (
     <section
-      className={`flex max-md:flex-col bg-[#EEEEE6] md:bg-white max-md:gap-8 ${isOverlay ? "border border-[#252525] shadow-lg" : ""}`}
+      className={`flex max-md:flex-col bg-[#FFFFFA] md:bg-white max-md:gap-8 ${isOverlay ? "border border-[#252525] shadow-lg" : ""}`}
     >
       {isOverlay && (
         <button
@@ -134,83 +134,87 @@ export function ContactSection({ close }: ContactSectionProps) {
         </div>
       </div>
 
-      <div className="space-y-5 w-full px-4 py-5 md:px-6 md:py-8 lg:py-12 lg:px-12 max-md:pt-0">
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-1.5">
+      <div className="space-y-7 w-full px-4 py-5 md:px-6 md:py-8 lg:py-14 lg:px-16 max-md:pt-0">
+        <div className="space-y-6">
+          <div className="grid gap-5 md:grid-cols-2">
+            <div className="space-y-2">
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name*"
+                className="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
+              />
+              {errors.name && (
+                <p className="text-xs text-red-500">{errors.name}</p>
+              )}
+            </div>
+            <div className="space-y-1.5">
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email*"
+                className="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
+              />
+              {errors.email && (
+                <p className="text-xs text-red-500">{errors.email}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-2">
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="company"
+              value={formData.company}
               onChange={handleChange}
-              placeholder="Name*"
-              className="w-full border-0 border-b border-[#25252580] bg-transparent pb-2 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
+              placeholder="Company"
+              className="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
             />
-            {errors.name && (
-              <p className="text-xs text-red-500">{errors.name}</p>
-            )}
-          </div>
-          <div className="space-y-1.5">
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email*"
-              className="w-full border-0 border-b border-[#25252580] bg-transparent pb-2 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
-            />
-            {errors.email && (
-              <p className="text-xs text-red-500">{errors.email}</p>
-            )}
           </div>
         </div>
 
-        <div className="space-y-1.5">
-          <input
-            type="text"
-            name="company"
-            value={formData.company}
-            onChange={handleChange}
-            placeholder="Company"
-            className="w-full border-0 border-b border-[#25252580] bg-transparent pb-2 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
-          />
+        <div className="space-y-5">
+          <div className="flex flex-col gap-3">
+            <label className="text-sm leading-none font-normal text-[#252525]">
+              Budget range*
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {BUDGET_OPTIONS.map((option) => {
+                const active = budget === option;
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => setBudget(option)}
+                    className={`border  px-4 py-2 text-[#252525] text-xs transition ${
+                      active
+                        ? "border-[#252525] bg-[#EBEBEB] font-medium"
+                        : "border-[#25252580] hover:border-zinc-900 font-normal hover:text-zinc-900"
+                    }`}
+                  >
+                    {option}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Tell us about your project"
+              className="h-24 w-full resize-none border max-md:h-20 border-[#25252580] bg-transparent p-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533] focus:border-zinc-900"
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-normal text-[#252525]">
-            Budget range*
-          </label>
-          <div className="flex flex-wrap gap-2 pt-3">
-            {BUDGET_OPTIONS.map((option) => {
-              const active = budget === option;
-              return (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => setBudget(option)}
-                  className={`border  px-4 py-2 text-[#252525] text-xs transition ${
-                    active
-                      ? "border-[#252525] bg-[#EBEBEB] font-medium"
-                      : "border-[#25252580] hover:border-zinc-900 font-normal hover:text-zinc-900"
-                  }`}
-                >
-                  {option}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="space-y-1.5">
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            placeholder="Tell us about your project"
-            className="h-24 w-full resize-none border max-md:h-20 border-[#25252580] bg-transparent p-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533] focus:border-zinc-900"
-          />
-        </div>
-
-        <div className="space-y-1.5">
           <select
             name="source"
             value={formData.source}
@@ -223,6 +227,7 @@ export function ContactSection({ close }: ContactSectionProps) {
             <option>Upwork</option>
             <option>Google</option>
             <option>Referral</option>
+            <option>AI</option>
             <option>Other</option>
           </select>
         </div>
@@ -231,9 +236,9 @@ export function ContactSection({ close }: ContactSectionProps) {
           type="button"
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="relative overflow-hidden border border-[#252525] px-6 py-2.5 text-sm text-[#252525] bg-white group inline-flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="relative md:w-[160px] justify-center overflow-hidden border border-[#252525] px-6 py-2.5 text-sm text-[#252525] bg-white group inline-flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+          <span className="relative z-10  transition-colors duration-300 group-hover:text-white">
             {isSubmitting ? "Sending..." : "Submit"}
           </span>
 

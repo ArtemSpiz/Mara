@@ -10,7 +10,7 @@ import Burger from "@/public/Burger.png";
 import Cross from "@/public/Cross.png";
 import { overlayBg } from "@/app/ui/overlayBg";
 import Link from "next/link";
-import Logo from '@/public/logo.png'
+import Logo from "@/public/logo.png";
 
 export default function Header() {
   const HeaderLinks = [
@@ -19,7 +19,7 @@ export default function Header() {
       subtitles: [
         { label: "Pricing", href: "#pricing" },
         { label: "About Us", href: "#about" },
-        { label: "Services", href: "/case-studies" },
+        { label: "Services", href: "#services" },
       ],
       icon: Icon1,
     },
@@ -36,7 +36,7 @@ export default function Header() {
     {
       title: "Work",
       subtitles: [
-        { label: "Portfolio", href: "#portfolio" },
+        { label: "Portfolio", href: "/case-studies" },
         { label: "Concepts", href: "#concepts" },
       ],
       icon: Icon3,
@@ -46,6 +46,7 @@ export default function Header() {
       subtitles: [
         { label: "Telegram", href: "#telegram" },
         { label: "Calendly", href: "#calendly" },
+        { label: "Contact Us", href: "/contact-us" },
       ],
       icon: Icon4,
     },
@@ -56,7 +57,7 @@ export default function Header() {
 
   return (
     <header
-      className={`absolute top-0 left-0 p-7 w-full max-md:items-start flex justify-between items-center z-20 
+      className={`absolute top-0 left-0 p-7 w-full max-md:items-start flex justify-between items-start  max-md:z-100 
       ${menuOpen ? `${overlayBg.className} h-screen` : "bg-white/0"}`}
     >
       <Link href="/">
@@ -76,58 +77,26 @@ export default function Header() {
         />
       </button>
 
-      {/* Desktop nav */}
       <div className="hidden md:flex gap-12">
-        {HeaderLinks.map((link, i) => (
-          <div
-            key={link.title}
-            className="relative font-cera-pro"
-            onMouseEnter={() => setHoveredLink(link.title)}
-            onMouseLeave={() => setHoveredLink(null)}
-          >
-            <h3 className="font-semibold cursor-pointer text-[#351E1C] text-lg cursor-default select-none">
+        {HeaderLinks.map((link) => (
+          <div key={link.title} className="flex flex-col gap-2 font-cera-pro">
+            <h3 className="font-semibold text-[#351E1C] text-sm select-none">
               {link.title}
             </h3>
-
-            <div
-              className={`
-                absolute top-8 z-20 w-max origin-top-left overflow-hidden rounded-lg border border-white/20
-                bg-white/10
-                shadow-lg
-                backdrop-blur-[12px]
-                transition-all duration-300
-                ${
-                  hoveredLink === link.title
-                    ? "opacity-100 scale-100 pointer-events-auto translate-y-0"
-                    : "opacity-0 scale-95  -translate-y-1"
-                }
-                ${i === HeaderLinks.length - 1 ? "right-0" : "left-0"}
-              `}
-            >
-              <div className="flex flex-col p-3 gap-1">
-                {link.subtitles.map((subtitle, index) => (
-                  <a
-                    key={subtitle.label}
-                    href={subtitle.href}
-                    className={`
-                      text-[#351E1C80] hover:text-[#351E1CFF] 
-                      cursor-pointer rounded-lg px-2 py-1
-                      transition-all duration-200
-                    `}
-                    style={{
-                      transitionDelay:
-                        hoveredLink === link.title ? `${index * 50}ms` : "0ms",
-                    }}
-                  >
-                    {subtitle.label}
-                  </a>
-                ))}
-              </div>
+            <div className="flex flex-col gap-1">
+              {link.subtitles.map((subtitle) => (
+                <a
+                  key={subtitle.label}
+                  href={subtitle.href}
+                  className="text-[#351E1C80] text-sm hover:text-[#351E1CFF] transition-colors duration-200"
+                >
+                  {subtitle.label}
+                </a>
+              ))}
             </div>
           </div>
         ))}
       </div>
-
       {menuOpen && (
         <div className="z-50 absolute top-[50px] left-0 w-full flex flex-col gap-4 p-6 md:hidden transition-all duration-300">
           {HeaderLinks.map((link, i) => (

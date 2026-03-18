@@ -4,7 +4,7 @@ import { useRef, useState, useCallback } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
-type BlogItem = {
+type CaseStudiesItem = {
   slug: string;
   category: string;
   date: string;
@@ -13,12 +13,15 @@ type BlogItem = {
   image: StaticImageData;
 };
 
-type BlogAnotherProps = {
+type CaseStudiesAnotherProps = {
   currentSlug: string;
-  allItems: BlogItem[];
+  allItems: CaseStudiesItem[];
 };
 
-export function BlogAnother({ currentSlug, allItems }: BlogAnotherProps) {
+export function CaseStudiesAnother({
+  currentSlug,
+  allItems,
+}: CaseStudiesAnotherProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
@@ -89,7 +92,7 @@ export function BlogAnother({ currentSlug, allItems }: BlogAnotherProps) {
         {otherItems.map((item, index) => (
           <Link
             key={item.slug}
-            href={`/blog/${item.slug}`}
+            href={`/case-studies/${item.slug}`}
             className={`flex-shrink-0  md:w-65 lg:w-107 max-md:w-full group cursor-pointer ${index >= 3 ? "max-md:hidden" : ""}`}
           >
             <div className="flex flex-col gap-4">

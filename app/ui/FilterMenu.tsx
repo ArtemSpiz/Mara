@@ -35,9 +35,10 @@ export type FilterState = {
 type Props = {
   value: FilterState;
   onChange: (value: FilterState) => void;
+  right?: boolean;
 };
 
-export function FilterMenu({ value, onChange }: Props) {
+export function FilterMenu({ value, onChange, right }: Props) {
   const [open, setOpen] = useState(false);
 
   const appliedTopicsCount = value.topics ? value.topics.length : 0;
@@ -101,13 +102,13 @@ export function FilterMenu({ value, onChange }: Props) {
       )}
 
       <div
-        className={`absolute left-0 top-10 z-20 w-[340px] max-md:w-[300px] origin-top-left overflow-hidden rounded-2xl max-md:rounded-lg border border-white/60  bg-white/10
+        className={`absolute top-10 z-20 w-[340px] max-md:w-[300px] origin-top-left overflow-hidden rounded-2xl max-md:rounded-lg border border-white/60  bg-white/10
                 shadow-lg
                 backdrop-blur-md transition-all duration-200 ${
                   open
                     ? "pointer-events-auto scale-100 opacity-100"
                     : "pointer-events-none scale-95 opacity-0"
-                }`}
+                } ${right ? "right-0" : "left-0"}`}
       >
         <div className="grid grid-cols-2 ">
           {/* Sort By column */}

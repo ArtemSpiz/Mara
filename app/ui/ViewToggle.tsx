@@ -19,25 +19,25 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
   }
 
   return (
-    <div className="relative flex items-center bg-[#EDEDE4] max-md:bg-[#EDEDE466] rounded-full p-1.5 gap-1 max-md:p-1 shadow-[inset_0px_0px_3.33px_0px_#00000026]">
+    <div className="relative flex items-center bg-[#EDEDE4] max-md:bg-[#EDEDE466] rounded-full p-1 gap-1 max-md:p-1 shadow-[inset_0px_0px_3.33px_0px_#00000026]">
       {/* Sliding background circle */}
       <div
-        className="absolute top-1.5 max-md:top-1 w-9 h-9 rounded-full bg-[#1C0F0A] shadow-md transition-transform duration-300 ease-in-out"
+        className="absolute top-1 max-md:top-1 w-7 h-7 rounded-full bg-[#1C0F0A] shadow-md transition-transform duration-300 ease-in-out"
         style={{
-          transform: mode === "grid" ? "translateX(0px)" : "translateX(40px)",
+          transform: mode === "grid" ? "translateX(0px)" : "translateX(32px)",
         }}
       />
 
       {/* Grid button */}
       <button
         onClick={() => handleToggle("grid")}
-        className="relative z-10 w-9 h-9 rounded-full flex items-center justify-center"
+        className="relative z-10 w-7 h-7 rounded-full flex items-center justify-center"
         aria-label="Grid view"
       >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
           <rect
-            x="2"
-            y="2"
+            x="1"
+            y="1"
             width="5"
             height="5"
             rx="1"
@@ -47,8 +47,8 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             className="transition-colors duration-300"
           />
           <rect
-            x="10"
-            y="2"
+            x="8"
+            y="1"
             width="5"
             height="5"
             rx="1"
@@ -58,8 +58,8 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             className="transition-colors duration-300"
           />
           <rect
-            x="2"
-            y="10"
+            x="1"
+            y="8"
             width="5"
             height="5"
             rx="1"
@@ -69,8 +69,8 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             className="transition-colors duration-300"
           />
           <rect
-            x="10"
-            y="10"
+            x="8"
+            y="8"
             width="5"
             height="5"
             rx="1"
@@ -85,10 +85,10 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
       {/* List button */}
       <button
         onClick={() => handleToggle("list")}
-        className="relative z-10 w-9 h-9 rounded-full flex items-center justify-center"
+        className="relative z-10 w-7 h-7 rounded-full flex items-center justify-center"
         aria-label="List view"
       >
-        <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+        <svg width="14" height="12" viewBox="0 0 16 14" fill="none">
           <circle
             cx="1.5"
             cy="2"

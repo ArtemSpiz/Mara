@@ -8,20 +8,14 @@
 body {
   background-color: #fffffa;
   color: var(--foreground);
-  font-family:
-    var(--font-satoshi),
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+  font-family: var(--font-satoshi);
 }
 
 html {
   background-color: #fffffa;
 }
 
-@theme {
+@theme inline {
   --font-sans: var(--font-satoshi);
   --font-display: var(--font-cera-pro);
   --font-instrument-serif: "Instrument Serif", serif;

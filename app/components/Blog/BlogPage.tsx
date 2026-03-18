@@ -33,7 +33,7 @@ export function BlogPage() {
     <div className="">
       <div className="mx-auto  px-6 pt-24 h-[300px]  justify-center flex flex-col max-md:h-[200px] max-md:pt-10">
         <h1 className="font-sans text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-[56px] ">
-          The latest from <em className="italic">Mara</em>
+          The latest from <em className="italic font-instrument-serif">Mara</em>
         </h1>
       </div>
 

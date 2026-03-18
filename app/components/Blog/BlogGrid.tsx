@@ -74,7 +74,7 @@ export function BlogGrid({
   }, [allItems, page, itemsPerPage]);
 
   return (
-    <section className="mx-auto px-12 max-md:px-4 pt-24 max-md:pt-5 pb-16">
+    <section className="mx-auto px-12 max-w-[1800px] max-md:px-4 pt-24 max-md:pt-5 pb-16">
       <div className="mb-12 max-md:mb-5 flex items-center justify-between gap-4">
         <div className="text-3xl font-sans text-[#151A23]">Posts</div>
       </div>
@@ -87,14 +87,16 @@ export function BlogGrid({
         }`}
       >
         {items.map((item, index) => (
-          <Link
-            href={`/blog/${item.slug}`}
+          <div
             key={item.id}
-            className="group cursor-pointer relative animate-[fadeUp_0.45s_ease_both]"
+            className="group  relative animate-[fadeUp_0.45s_ease_both]"
             style={{ animationDelay: `${index * 40}ms` }}
           >
             {!listView && (
-              <div className="flex flex-col gap-4">
+              <Link
+                href={`/blog/${item.slug}`}
+                className="flex cursor-pointer flex-col gap-4"
+              >
                 <div className=" overflow-hidden">
                   <Image
                     src={item.image}
@@ -109,28 +111,29 @@ export function BlogGrid({
                   <div className="text-xl md:text-2xl font-normal text-[#351E1C]">
                     {item.title}
                   </div>
-                  <div className="text-sm text-[#351E1CB2]">
-                    {item.subtitle}
-                  </div>
+                  <div className="text-sm text-[#351E1CB2]">{item.text}</div>
                 </div>
-              </div>
+              </Link>
             )}
 
             {listView && (
-              <div className="grid grid-cols-[200px_1fr_1fr_auto] items-center gap-4 w-full  py-4 max-md:grid-cols-1 max-md:py-0 max-md:gap-2">
+              <div className="grid grid-cols-[200px_1fr_1fr_100px] max-md:border-b max-md:pb-2 border-[#151A2333] items-center gap-4 w-full  py-4 max-md:grid-cols-1 max-md:py-0 max-md:gap-2">
                 <div className="text-[#351E1C99] font-sans text-sm">
                   {item.date}
                 </div>
                 <div className="text-xl md:text-2xl font-normal text-[#351E1C]">
                   {item.title}
                 </div>
-                <div className="text-sm text-[#351E1CB2]">{item.subtitle}</div>
-                <div className="text-[#151A23] text-sm underline font-sans cursor-pointer">
+                <div className="text-sm text-[#351E1CB2]">{item.text}</div>
+                <Link
+                  href={`/blog/${item.slug}`}
+                  className="text-[#151A23] cursor-pointer w-full justify-end flex text-sm underline font-sans cursor-pointer"
+                >
                   Read
-                </div>
+                </Link>
               </div>
             )}
-          </Link>
+          </div>
         ))}
       </div>
     </section>
