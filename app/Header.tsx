@@ -10,6 +10,7 @@ import Burger from "@/public/Burger.png";
 import Cross from "@/public/Cross.png";
 import { overlayBg } from "@/app/ui/overlayBg";
 import Link from "next/link";
+import Logo from '@/public/logo.png'
 
 export default function Header() {
   const HeaderLinks = [
@@ -55,11 +56,11 @@ export default function Header() {
 
   return (
     <header
-      className={`absolute top-0 left-0 p-7 w-full flex justify-between items-center z-20 
+      className={`absolute top-0 left-0 p-7 w-full max-md:items-start flex justify-between items-center z-20 
       ${menuOpen ? `${overlayBg.className} h-screen` : "bg-white/0"}`}
     >
       <Link href="/">
-        <Image src="/logo.png" alt="Mara logo" width={80} height={20} />
+        <Image src={Logo} alt="Mara logo" width={80} height={20} />
       </Link>
 
       {/* Mobile burger */}
