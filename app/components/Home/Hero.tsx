@@ -32,21 +32,33 @@ export default function Hero() {
   return (
     <>
       <div
-        className="flex flex-col min-h-screen text-center items-center justify-center gap-5 font-sans bg-cover bg-center"
+        className="flex relative flex-col min-h-screen text-center items-center justify-center gap-5 font-sans bg-cover bg-center"
         style={{ backgroundImage: `url(${isMobile ? BgMob.src : Bg.src})` }}
       >
-        <div className="text-[#242424] text-6xl max-md:text-5xl max-w-[350px] max-md:max-w-[300px] tracking-tighter">
+        <div className="absolute z-0 top-0 left-0 w-full pointer-events-non max-lg:hidden">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/videoBg.webm" type="video/webm" />
+            <source src="/videoBg.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div className="text-[#242424] z-10 text-6xl max-md:text-5xl max-w-[350px] max-md:max-w-[300px] tracking-tighter">
           We are{" "}
           <span className="text-7xl max-md:text-6xl font-[family-name:var(--font-instrument-serif)] italic">
             Coming Soon
           </span>
         </div>
-        <div className="text-[#242424] max-w-[350px] text-xl max-md:text-base font-light leading-[120%]">
+        <div className="text-[#242424] z-10 max-w-[350px] text-xl max-md:text-base font-light leading-[120%]">
           We&apos;re working on our new website. Meanwhile review our work.
         </div>
         <button
           onClick={() => setOpen(true)}
-          className="relative overflow-hidden border border-[#252525] py-3.5 px-12 text-base text-[#FCF6EF] group"
+          className="relative overflow-hidden z-10 border border-[#252525] py-3.5 px-12 text-base text-[#FCF6EF] group"
         >
           <span className="relative z-10 transition duration-300 group-hover:text-[#252525]">
             Contact Us
