@@ -7,7 +7,7 @@ export type CaseStudy = {
   slug: string;
   title: string;
   subtitle: string;
-  image: string | StaticImageData;
+  image: StaticImageData;
   category: CaseCategory;
   readTime: string;
   date: string;
