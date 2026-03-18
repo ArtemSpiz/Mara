@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 function ReadingProgress({
   contentRef,
 }: {
-  contentRef: React.RefObject<HTMLDivElement>;
+  contentRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const [progress, setProgress] = useState(0);
 

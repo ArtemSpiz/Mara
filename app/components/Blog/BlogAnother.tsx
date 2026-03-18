@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
 type BlogItem = {
@@ -10,7 +10,7 @@ type BlogItem = {
   date: string;
   title: string;
   subtitle: string;
-  image: any;
+  image: StaticImageData;
 };
 
 type BlogAnotherProps = {
