@@ -1,11 +1,15 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import LogoFooter from "@/public/logoFooter.png";
 import partnerLogo1 from "@/public/partnerLogo1.png";
 import partnerLogo2 from "@/public/partnerLogo2.png";
 
 export default function Footer() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+
   const FooterLinks = [
     {
       title: "Home",
@@ -42,59 +46,134 @@ export default function Footer() {
     },
   ];
 
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpenIndex(null);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
   return (
     <footer className="bg-[#232323]">
-      <div className="px-10 py-10 border-b border-[#FFFFFF]">
-        <div className="flex gap-30 flex-col justify-between md:flex-row ">
-          <div className="flex justify-between max-w-5xl gap-2.5 w-full order-first md:order-last max-md:justify-center max-md:gap-x-10 max-md:flex-wrap max-md:pb-8">
+      <div className="px-10 py-10 border-b border-white/10">
+        {/* Mobile layout */}
+        <div className="flex flex-col gap-8 md:hidden">
+          {/* 4 titles in a row — above logo */}
+          <div ref={navRef} className="flex justify-between relative">
             {FooterLinks.map((link, i) => (
-              <div
-                key={link.title}
-                className="flex flex-col gap-3 max-md:items-center"
-              >
-                <div className="font-semibold text-[#FFFFFF66] text-sm">
-                  {link.title}
-                </div>
-                <div
-                  className={`flex flex-col ${i === FooterLinks.length - 1 ? "max-md:flex max-sm:flex-row max-md:gap-3" : "max-md:hidden"}`}
+              <div key={link.title} className="relative">
+                <button
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  className="flex flex-col items-center gap-1 group"
                 >
-                  {link.subtitles.map((subtitle, index) => (
+                  <span
+                    className={`text-sm transition-colors duration-150 ${openIndex === i ? "text-white" : "text-white/50 group-hover:text-white/80"}`}
+                  >
+                    {link.title}
+                  </span>
+                  <span
+                    className={`block h-px w-full transition-all duration-200 ${openIndex === i ? "bg-white" : "bg-transparent"}`}
+                  />
+                </button>
+
+                {/* Dropdown */}
+                {openIndex === i && (
+                  <div
+                    className={`absolute top-9/12  mt-3 z-50
+                    bg-[#2c2c2c] border border-white/10 rounded-xl overflow-hidden
+                    shadow-xl shadow-black/30 min-w-[130px] ${i === 0 ? "left-0" : i === FooterLinks.length - 1 ? "right-0" : "left-1/2 -translate-x-1/2"}`}
+                  >
+                    {link.subtitles.map((s, idx) => (
+                      <a
+                        key={idx}
+                        href={s.href}
+                        onClick={() => setOpenIndex(null)}
+                        className={`block px-4 py-2.5 text-sm text-white/65 hover:text-white hover:bg-white/5 transition-colors
+                          ${idx !== 0 ? "border-t border-white/5" : ""}`}
+                      >
+                        {s.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Logo + about below */}
+          <div className="flex flex-col items-center gap-4 pt-2">
+            <Image src={LogoFooter} width={260} height={70} alt="Logo" />
+            <p className="text-white/40 text-sm leading-relaxed text-center max-w-xs">
+              We help startups and companies design and build digital products
+              that fuel growth and innovation.
+            </p>
+          </div>
+        </div>
+
+        {/* Desktop layout — unchanged */}
+        <div className="hidden md:flex justify-between gap-10">
+          <div className="flex flex-col justify-end gap-6">
+            <Image src={LogoFooter} width={280} height={75} alt="Logo" />
+            <div className="flex gap-5 items-start">
+              <span className="text-white/30 text-sm shrink-0">About</span>
+              <p className="text-white/70 text-sm leading-relaxed max-w-[340px]">
+                We help startups and companies design and build digital products
+                that fuel growth and innovation.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex gap-12 ">
+            {FooterLinks.map((link) => (
+              <div key={link.title} className="flex flex-col gap-4">
+                <span className="text-white/30 text-sm font-medium">
+                  {link.title}
+                </span>
+                <div className="flex flex-col gap-2">
+                  {link.subtitles.map((s, i) => (
                     <a
-                      key={index}
-                      href={subtitle.href}
-                      className={`text-[#FFFFFFCC] hover:text-[#d0cececc] cursor-pointer`}
+                      key={i}
+                      href={s.href}
+                      className="text-white/70 hover:text-white text-sm transition-colors"
                     >
-                      {subtitle.label}
+                      {s.label}
                     </a>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="flex flex-col justify-end max-md:mx-auto max-md:items-center order-last md:order-first">
-            <Image src={LogoFooter} width={300} height={80} alt="Logo" />
-            <div className="flex text-sm font-sans gap-5 max-md:gap-1 items-center pt-6 md:pt-10 max-md:flex-col max-md:items-center max-md:text-center">
-              <div className="text-[#FFFFFF66] leading-normal shrink-0">
-                About
-              </div>
-              <div className="text-[#FFFFFFCC] max-w-[400px]">
-                We help startups and companies design and build digital products
-                that fuel growth and innovation.
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      <div className="px-10 md:px-14 py-8 md:py-10 flex flex-col md:flex-row items-center gap-6 md:gap-0 md:justify-between w-full">
+      {/* Bottom bar */}
+      <div className="px-10 py-6 flex flex-col md:flex-row items-center gap-4 md:gap-0 md:justify-between">
         <div className="flex gap-5 items-center">
-          <Image src={partnerLogo1} width={70} height={25} alt="Clutch" />
-          <Image src={partnerLogo2} width={74} height={35} alt="Upwork" />
+          <Image
+            src={partnerLogo1}
+            width={66}
+            height={24}
+            alt="Clutch"
+            className="opacity-50"
+          />
+          <Image
+            src={partnerLogo2}
+            width={70}
+            height={32}
+            alt="Upwork"
+            className="opacity-50"
+          />
         </div>
-        <div className="flex gap-5 text-[#FFFFFFCC] font-sans text-sm">
-          <div>Privacy Policy</div>
-          <div>Terms of Condition</div>
+        <div className="flex gap-5 text-white/30 text-xs">
+          <a href="#" className="hover:text-white/60 transition-colors">
+            Privacy Policy
+          </a>
+          <a href="#" className="hover:text-white/60 transition-colors">
+            Terms of Condition
+          </a>
         </div>
       </div>
     </footer>
