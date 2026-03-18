@@ -28,8 +28,8 @@ export default function Footer() {
   return (
     <footer className="bg-[#232323]">
       <div className="px-10 py-10 border-b border-[#FFFFFF]">
-        <div className="flex flex-col md:flex-row gap-5">
-          <div className="flex justify-between gap-2.5 w-full order-first md:order-last max-md:justify-center max-md:gap-x-10 max-md:flex-wrap max-md:pb-8">
+        <div className="flex flex-col justify-between md:flex-row gap-5">
+          <div className="flex justify-between max-w-5xl gap-2.5 w-full order-first md:order-last max-md:justify-center max-md:gap-x-10 max-md:flex-wrap max-md:pb-8">
             {FooterLinks.map((link, i) => (
               <div
                 key={link.title}
@@ -58,8 +58,10 @@ export default function Footer() {
           <div className="flex flex-col justify-end max-md:mx-auto max-md:items-center order-last md:order-first">
             <Image src={LogoFooter} width={300} height={80} alt="Logo" />
             <div className="flex text-sm font-sans gap-5 max-md:gap-1 items-center pt-6 md:pt-10 max-md:flex-col max-md:items-center max-md:text-center">
-              <div className="text-[#FFFFFF66] leading-normal shrink-0">About</div>
-              <div className="text-[#FFFFFFCC]">
+              <div className="text-[#FFFFFF66] leading-normal shrink-0">
+                About
+              </div>
+              <div className="text-[#FFFFFFCC] max-w-[400px]">
                 We help startups and companies design and build digital products
                 that fuel growth and innovation.
               </div>
