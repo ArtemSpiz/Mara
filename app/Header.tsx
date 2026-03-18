@@ -57,7 +57,7 @@ export default function Header() {
 
   return (
     <header
-      className={`absolute top-0 left-0 p-7 w-full max-md:items-start flex justify-between items-start  max-md:z-100 
+      className={`absolute top-0 left-0 p-7 w-full z-40 max-md:items-start flex justify-between items-start  max-md:z-100 
       ${menuOpen ? `${overlayBg.className} h-screen` : "bg-white/0"}`}
     >
       <Link href="/">
