@@ -37,13 +37,6 @@ export function BlogPage() {
         </h1>
       </div>
 
-      <div className="flex gap-2 items-center px-6 max-md:justify-between max-md:px-4 ">
-        <div className=" flex  items-start gap-4 ">
-          <FilterMenu value={filter} onChange={setFilter} />
-        </div>
-
-        <ViewToggle value={viewMode} onChange={setViewMode} />
-      </div>
       <BlogFeatured />
 
       <BlogGrid
@@ -52,6 +45,8 @@ export function BlogPage() {
         itemsPerPage={ITEMS_PER_PAGE}
         onTotalPagesChange={setTotalPages}
         viewMode={viewMode}
+        onFilterChange={handleFilterChange}
+        onViewModeChange={setViewMode}
       />
       <Pagination
         currentPage={page}

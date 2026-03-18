@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FilterState, SortOption } from "@/app/ui/FilterMenu";
+import { FilterMenu, FilterState, SortOption } from "@/app/ui/FilterMenu";
 import { CASE_STUDIES, CaseCategory, CaseStudy } from "../CaseStudies/data";
+import { ViewToggle } from "@/app/ui/ViewToggle";
 
 function matchesFilter(item: CaseStudy, filter: FilterState): boolean {
   if (!filter.topics || filter.topics.length === 0) return true;
@@ -47,6 +48,8 @@ interface BlogGridProps {
   itemsPerPage: number;
   onTotalPagesChange: (total: number) => void;
   viewMode: "grid" | "list";
+  onFilterChange: (filter: FilterState) => void;
+  onViewModeChange: (mode: "grid" | "list") => void;
 }
 
 export function BlogGrid({
@@ -55,6 +58,8 @@ export function BlogGrid({
   itemsPerPage,
   onTotalPagesChange,
   viewMode,
+  onFilterChange,
+  onViewModeChange,
 }: BlogGridProps) {
   const listView = viewMode === "list";
 
@@ -77,6 +82,14 @@ export function BlogGrid({
     <section className="mx-auto px-12 max-w-[1800px] max-md:px-4 pt-24 max-md:pt-5 pb-16">
       <div className="mb-12 max-md:mb-5 flex items-center justify-between gap-4">
         <div className="text-3xl font-sans text-[#151A23]">Posts</div>
+
+        <div className="flex gap-2 items-center px-6 max-md:justify-between max-md:px-4 ">
+          <div className=" flex  items-start gap-4 ">
+            <FilterMenu right value={filter} onChange={onFilterChange} />
+          </div>
+
+          <ViewToggle value={viewMode} onChange={onViewModeChange} />
+        </div>
       </div>
 
       <div

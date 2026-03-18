@@ -7,6 +7,7 @@ import Icon1 from "@/public/ContactIcon1.png";
 import Icon2 from "@/public/ContactIcon2.png";
 import Icon3 from "@/public/ContactIcon3.png";
 import ArrowBtn from "@/public/ArrowBtn.png";
+import ContactButton from "../ui/ContactButton";
 
 const BUDGET_OPTIONS = [
   "< $5,000",
@@ -232,22 +233,13 @@ export function ContactSection({ close }: ContactSectionProps) {
           </select>
         </div>
 
-        <button
-          type="button"
+        <ContactButton
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="relative md:w-[160px] justify-center overflow-hidden border border-[#252525] px-6 py-2.5 text-sm text-[#252525] bg-white group inline-flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <span className="relative z-10  transition-colors duration-300 group-hover:text-white">
-            {isSubmitting ? "Sending..." : "Submit"}
-          </span>
-
-          <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-            →
-          </span>
-
-          <span className="absolute inset-0 bg-[#252525] scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
-        </button>
+          label={isSubmitting ? "Sending..." : "Submit"}
+          hoverLabel={isSubmitting ? "Sending..." : "Submit"}
+          variant="light"
+        />
       </div>
     </section>
   );

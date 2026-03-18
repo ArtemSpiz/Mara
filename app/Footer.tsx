@@ -139,7 +139,12 @@ export default function Footer() {
                     <a
                       key={i}
                       href={s.href}
-                      className="text-white/70 hover:text-white text-sm transition-colors"
+                      className="
+                      relative w-fit text-white/70 hover:text-white text-sm transition-colors
+                      after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0
+                      after:bg-white after:transition-all after:duration-300
+                      hover:after:w-full
+                    "
                     >
                       {s.label}
                     </a>
