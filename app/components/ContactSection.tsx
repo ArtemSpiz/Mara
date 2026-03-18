@@ -231,10 +231,17 @@ export function ContactSection({ close }: ContactSectionProps) {
           type="button"
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="mt-2 max-md:-mt-2 inline-flex cursor-pointer items-center gap-2 bg-transparent border border-[#25252580] px-6 py-2.5 text-sm text-[#252525] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="relative overflow-hidden border border-[#252525] px-6 py-2.5 text-sm text-[#252525] bg-white group inline-flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Sending..." : "Submit"}
-          <Image src={ArrowBtn} alt="" width={22} height={7} />
+          <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+            {isSubmitting ? "Sending..." : "Submit"}
+          </span>
+
+          <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+            →
+          </span>
+
+          <span className="absolute inset-0 bg-[#252525] scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
         </button>
       </div>
     </section>

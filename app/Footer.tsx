@@ -9,26 +9,43 @@ export default function Footer() {
   const FooterLinks = [
     {
       title: "Home",
-      subtitles: ["Pricing", "About Us", "Services"],
+      subtitles: [
+        { label: "Pricing", href: "#pricing" },
+        { label: "About Us", href: "#about" },
+        { label: "Services", href: "/case-studies" },
+      ],
     },
     {
       title: "Resources",
-      subtitles: ["Blog", "Resources", "Clients", "Tools"],
+      subtitles: [
+        { label: "Blog", href: "/blog" },
+        { label: "Resources", href: "#resources" },
+        { label: "Clients", href: "#clients" },
+        { label: "Tools", href: "#tools" },
+      ],
     },
     {
       title: "Work",
-      subtitles: ["Portfolio", "Rejected Concepts"],
+      subtitles: [
+        { label: "Portfolio", href: "#portfolio" },
+        { label: "Rejected Concepts", href: "#rejected-concepts" },
+      ],
     },
     {
       title: "Follow us",
-      subtitles: ["Dribble", "Behance", "Medium", "X (Twitter)"],
+      subtitles: [
+        { label: "Dribble", href: "#dribble" },
+        { label: "Behance", href: "#behance" },
+        { label: "Medium", href: "#medium" },
+        { label: "X (Twitter)", href: "#x" },
+      ],
     },
   ];
 
   return (
     <footer className="bg-[#232323]">
       <div className="px-10 py-10 border-b border-[#FFFFFF]">
-        <div className="flex flex-col justify-between md:flex-row gap-5">
+        <div className="flex gap-30 flex-col justify-between md:flex-row ">
           <div className="flex justify-between max-w-5xl gap-2.5 w-full order-first md:order-last max-md:justify-center max-md:gap-x-10 max-md:flex-wrap max-md:pb-8">
             {FooterLinks.map((link, i) => (
               <div
@@ -43,11 +60,11 @@ export default function Footer() {
                 >
                   {link.subtitles.map((subtitle, index) => (
                     <a
-                      key={subtitle}
+                      key={index}
+                      href={subtitle.href}
                       className={`text-[#FFFFFFCC] hover:text-[#d0cececc] cursor-pointer`}
-                      style={{ transitionDelay: `${index * 100}ms` }}
                     >
-                      {subtitle}
+                      {subtitle.label}
                     </a>
                   ))}
                 </div>

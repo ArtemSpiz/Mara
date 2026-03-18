@@ -8,16 +8,26 @@ export default function Hero() {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Відслідковуємо ширину екрану
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Блокуємо скрол, коли відкритий ContactSection
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <>
@@ -41,7 +51,6 @@ export default function Hero() {
           <span className="relative z-10 transition duration-300 group-hover:text-[#252525]">
             Contact Us
           </span>
-
           <span className="absolute inset-0 bg-[#252525] transition-transform duration-500 origin-right group-hover:scale-x-0"></span>
         </button>
       </div>
