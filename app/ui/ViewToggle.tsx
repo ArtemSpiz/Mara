@@ -1,0 +1,144 @@
+"use client";
+
+import { useState } from "react";
+
+type ViewMode = "grid" | "list";
+
+interface ViewToggleProps {
+  value?: ViewMode;
+  onChange?: (mode: ViewMode) => void;
+}
+
+export function ViewToggle({ value, onChange }: ViewToggleProps) {
+  const [internal, setInternal] = useState<ViewMode>("grid");
+  const mode = value ?? internal;
+
+  function handleToggle(next: ViewMode) {
+    setInternal(next);
+    onChange?.(next);
+  }
+
+  return (
+    <div className="relative flex items-center bg-[#EDEDE4] max-md:bg-[#EDEDE466] rounded-full p-1.5 gap-1 max-md:p-1 shadow-[inset_0px_0px_3.33px_0px_#00000026]">
+      {/* Sliding background circle */}
+      <div
+        className="absolute top-1.5 max-md:top-1 w-9 h-9 rounded-full bg-[#1C0F0A] shadow-md transition-transform duration-300 ease-in-out"
+        style={{
+          transform: mode === "grid" ? "translateX(0px)" : "translateX(40px)",
+        }}
+      />
+
+      {/* Grid button */}
+      <button
+        onClick={() => handleToggle("grid")}
+        className="relative z-10 w-9 h-9 rounded-full flex items-center justify-center"
+        aria-label="Grid view"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect
+            x="2"
+            y="2"
+            width="5"
+            height="5"
+            rx="1"
+            fill="none"
+            stroke={mode === "grid" ? "white" : "#8A9BA8"}
+            strokeWidth="1.5"
+            className="transition-colors duration-300"
+          />
+          <rect
+            x="10"
+            y="2"
+            width="5"
+            height="5"
+            rx="1"
+            fill="none"
+            stroke={mode === "grid" ? "white" : "#8A9BA8"}
+            strokeWidth="1.5"
+            className="transition-colors duration-300"
+          />
+          <rect
+            x="2"
+            y="10"
+            width="5"
+            height="5"
+            rx="1"
+            fill="none"
+            stroke={mode === "grid" ? "white" : "#8A9BA8"}
+            strokeWidth="1.5"
+            className="transition-colors duration-300"
+          />
+          <rect
+            x="10"
+            y="10"
+            width="5"
+            height="5"
+            rx="1"
+            fill="none"
+            stroke={mode === "grid" ? "white" : "#8A9BA8"}
+            strokeWidth="1.5"
+            className="transition-colors duration-300"
+          />
+        </svg>
+      </button>
+
+      {/* List button */}
+      <button
+        onClick={() => handleToggle("list")}
+        className="relative z-10 w-9 h-9 rounded-full flex items-center justify-center"
+        aria-label="List view"
+      >
+        <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+          <circle
+            cx="1.5"
+            cy="2"
+            r="1.5"
+            fill={mode === "list" ? "white" : "#8A9BA8"}
+            className="transition-colors duration-300"
+          />
+          <rect
+            x="5"
+            y="1"
+            width="11"
+            height="2"
+            rx="1"
+            fill={mode === "list" ? "white" : "#8A9BA8"}
+            className="transition-colors duration-300"
+          />
+          <circle
+            cx="1.5"
+            cy="7"
+            r="1.5"
+            fill={mode === "list" ? "white" : "#8A9BA8"}
+            className="transition-colors duration-300"
+          />
+          <rect
+            x="5"
+            y="6"
+            width="11"
+            height="2"
+            rx="1"
+            fill={mode === "list" ? "white" : "#8A9BA8"}
+            className="transition-colors duration-300"
+          />
+          <circle
+            cx="1.5"
+            cy="12"
+            r="1.5"
+            fill={mode === "list" ? "white" : "#8A9BA8"}
+            className="transition-colors duration-300"
+          />
+          <rect
+            x="5"
+            y="11"
+            width="11"
+            height="2"
+            rx="1"
+            fill={mode === "list" ? "white" : "#8A9BA8"}
+            className="transition-colors duration-300"
+          />
+        </svg>
+      </button>
+    </div>
+  );
+}
