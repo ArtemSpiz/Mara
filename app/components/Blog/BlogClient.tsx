@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import ArrowBack from "@/public/ArrowBack.png";
 import Socials from "@/app/ui/Socials";
 import Link from "next/link";
@@ -18,7 +18,8 @@ type BlogItem = {
   category: string;
   date: string;
   title: string;
-  image: any;
+  image: StaticImageData;
+  excerpt: string;
 };
 
 export default function BlogClient({ item }: { item: BlogItem }) {
@@ -78,7 +79,7 @@ export default function BlogClient({ item }: { item: BlogItem }) {
         <div className="mx-auto relative max-md:px-5 md:pr-5 max-w-4xl">
           <div>
             <p className="text-base font-display uppercase text-[#32404F95] mb-4">
-              {item.category} • {(item as any).excerpt}
+              {item.category} • {item.excerpt}
             </p>
             <h1 className="text-4xl md:text-5xl font-sans leading-none mb-6">
               {item.title}
