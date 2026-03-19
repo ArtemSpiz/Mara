@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useScramble } from "../hooks/useScramble";
 
 interface ContactButtonProps {
@@ -8,7 +8,7 @@ interface ContactButtonProps {
   disabled?: boolean;
   label?: string;
   hoverLabel?: string;
-  variant?: "dark" | "light";
+  variant?: "dark" | "light" | "cream";
 }
 
 export default function ContactButton({
@@ -20,140 +20,236 @@ export default function ContactButton({
 }: ContactButtonProps) {
   const textRef = useRef<HTMLSpanElement>(null);
   const scrambleTo = useScramble(textRef);
-
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number | null>(null);
   const isLight = variant === "light";
+  const isCream = variant === "cream";
+  const useCanvas = !isCream;
+  const [hovered, setHovered] = useState(false);
+  const progressRef = useRef(0);
+
+  useEffect(() => {
+    if (!useCanvas) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const target = hovered ? 1 : 0;
+    const speed = 0.07;
+
+    const animate = () => {
+      const diff = target - progressRef.current;
+      progressRef.current += diff * speed;
+
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const p = progressRef.current;
+      if (p < 0.001) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      const fillY = h * (1 - p);
+      const waveAmp = 6 * Math.sin(p * Math.PI);
+      const freq = (2 * Math.PI) / w;
+      const phase = Date.now() * 0.004;
+
+      ctx.beginPath();
+      ctx.moveTo(0, h);
+      for (let x = 0; x <= w; x++) {
+        const y = fillY + Math.sin(x * freq * 2 + phase) * waveAmp;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      ctx.fillStyle = isLight ? "#252525" : "#FCF6EF";
+      ctx.fill();
+
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [hovered, isLight, useCanvas]);
+
+  // У ContactButton — після рендеру виміряй обидва і встанови максимум
+  useEffect(() => {
+    if (!textRef.current) return;
+    const el = textRef.current;
+
+    // Міряємо поточний
+    el.style.width = "";
+    const w1 = el.getBoundingClientRect().width;
+
+    // Міряємо hover текст тимчасово
+    const prev = el.textContent;
+    el.textContent = hoverLabel;
+    const w2 = el.getBoundingClientRect().width;
+    el.textContent = prev;
+
+    // Фіксуємо максимум
+    el.style.display = "inline-block";
+    el.style.whiteSpace = "nowrap";
+    el.style.overflow = "hidden";
+    el.style.width = `${Math.max(w1, w2)}px`;
+  }, [hoverLabel]);
+
+  const handleMouseEnter = () => {
+    if (disabled) return;
+    setHovered(true);
+    scrambleTo(hoverLabel);
+  };
+
+  const handleMouseLeave = () => {
+    if (disabled) return;
+    setHovered(false);
+    scrambleTo(label);
+  };
+
+  const baseSize = isLight
+    ? { width: "auto", height: "auto", padding: "10px 24px" }
+    : isCream
+      ? { width: "100%", padding: "8px" }
+      : { width: "200px", height: "55px" };
 
   return (
     <>
       <style>{`
-        .contact-btn {
+        .cbtn {
           position: relative;
-          border: 1px solid rgba(121,242,255,0.18);
-          background: #1a1a1a;
-          display: flex;
-          width: 200px;
-          height: 55px;
+          display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 14px;
+          gap: 10px;
           cursor: pointer;
           outline: none;
           overflow: hidden;
-          transition: border-color 0.42s ease;
+          border: 1px solid #252525;
+          background: transparent;
+          transition: border-color 0.3s ease;
         }
-        .contact-btn::before {
-          content: '';
+        .cbtn:disabled { opacity: 0.45; cursor: not-allowed; }
+        .cbtn--dark { background: #252525; }
+        .cbtn--light { background: #ffffff; }
+        .cbtn--cream { background: transparent; border-color: #ECEDE3; }
+
+        .cbtn__canvas {
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, #79F2FF 0%, rgba(121,242,255,0) 80%);
-          opacity: 0;
-          transition: opacity 0.42s ease;
+          width: 100%;
+          height: 100%;
           pointer-events: none;
+          z-index: 1;
         }
-        .contact-btn:hover { border-color: transparent; }
-        .contact-btn:hover::before { opacity: 1; }
-        .contact-btn__text {
-          font-size: 16px;
-          font-weight: 400;
-          color: #FCF6EF;
-          white-space: nowrap;
-          transition: color 0.18s ease;
+
+        .cbtn__label {
           position: relative;
           z-index: 2;
+          white-space: nowrap;
+          transition: color 0.15s ease;
+          font-weight: 400;
+          letter-spacing: 0.01em;
         }
-        .contact-btn:hover .contact-btn__text { color: #252525; }
-        .contact-btn__icon {
-          width: 36px;
-          height: 36px;
-          border-radius: 4px;
-          border: 1px solid rgba(121,242,255,0.25);
+        .cbtn--dark .cbtn__label { color: #FCF6EF; font-size: 16px; }
+        .cbtn--light .cbtn__label { color: #252525; font-size: 14px; }
+        .cbtn--cream .cbtn__label { color: #222222; font-size: 16px; font-weight: 500; }
+
+        .cbtn--dark.cbtn--hovered .cbtn__label { color: #252525; }
+        .cbtn--light.cbtn--hovered .cbtn__label { color: #FCF6EF; }
+        .cbtn--cream.cbtn--hovered .cbtn__label { color: #FCF6EF; }
+
+        .cbtn__arrow {
+          position: relative;
+          z-index: 2;
           display: flex;
           align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          position: relative;
-          z-index: 2;
-          opacity: 0;
-          transform: scale(0.7) rotate(-8deg);
-          transition:
-            opacity 0.28s cubic-bezier(0.34,1.4,0.64,1),
-            transform 0.32s cubic-bezier(0.34,1.4,0.64,1);
+          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.15s ease;
         }
-        .contact-btn:hover .contact-btn__icon {
-          opacity: 1;
-          transform: scale(1) rotate(0deg);
-          transition-delay: 0.18s;
-          background: rgba(37,37,37,0.2);
-          border-color: rgba(37,37,37,0.15);
-        }
+        .cbtn--dark .cbtn__arrow { color: #FCF6EF; }
+        .cbtn--light .cbtn__arrow { color: #252525; }
+        .cbtn--dark.cbtn--hovered .cbtn__arrow { color: #252525; }
+        .cbtn--light.cbtn--hovered .cbtn__arrow { color: #FCF6EF; }
 
-        /* light variant */
-        .contact-btn--light {
-          background: white;
-          border: 1px solid #252525;
-          width: auto;
-          height: auto;
-          padding: 10px 24px;
-          gap: 8px;
+        /* cream slide overlay */
+        .cbtn__slide {
+          position: absolute;
+          inset: 0;
+          background: #ECEDE3;
+          z-index: 1;
+          transform-origin: right;
+          transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
         }
-        .contact-btn--light::before { display: none; }
-        .contact-btn--light:hover { border-color: #252525; background: #252525; }
-        .contact-btn--light .contact-btn__text {
-          color: #252525;
-          font-size: 14px;
+        .cbtn--cream:hover .cbtn__slide { transform: scaleX(0); }
+
+        /* corner accents */
+        .cbtn__corner {
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          z-index: 3;
+          transition: opacity 0.3s ease, transform 0.3s ease;
+          opacity: 0;
         }
-        .contact-btn--light:hover .contact-btn__text { color: white; }
-        .contact-btn--light .contact-btn__arrow {
-          color: #252525;
-          transition: color 0.18s ease;
-          position: relative;
-          z-index: 2;
-          font-size: 14px;
-        }
-        .contact-btn--light:hover .contact-btn__arrow { color: white; }
+        .cbtn:hover .cbtn__corner { opacity: 1; }
+        .cbtn__corner--tl { top: -1px; left: -1px; border-top: 1.5px solid currentColor; border-left: 1.5px solid currentColor; transform: translate(3px, 3px); }
+        .cbtn__corner--tr { top: -1px; right: -1px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; transform: translate(-3px, 3px); }
+        .cbtn__corner--bl { bottom: -1px; left: -1px; border-bottom: 1.5px solid currentColor; border-left: 1.5px solid currentColor; transform: translate(3px, -3px); }
+        .cbtn__corner--br { bottom: -1px; right: -1px; border-bottom: 1.5px solid currentColor; border-right: 1.5px solid currentColor; transform: translate(-3px, -3px); }
+        .cbtn:hover .cbtn__corner--tl { transform: translate(0, 0); }
+        .cbtn:hover .cbtn__corner--tr { transform: translate(0, 0); }
+        .cbtn:hover .cbtn__corner--bl { transform: translate(0, 0); }
+        .cbtn:hover .cbtn__corner--br { transform: translate(0, 0); }
+        .cbtn--dark .cbtn__corner { color: #FCF6EF; }
+        .cbtn--light .cbtn__corner { color: #252525; }
+        .cbtn--cream .cbtn__corner { color: #222222; }
       `}</style>
 
-      {isLight ? (
-        <button
-          className="contact-btn contact-btn--light"
-          onClick={onClick}
-          disabled={disabled}
-          onMouseEnter={() => !disabled && scrambleTo(hoverLabel)}
-          onMouseLeave={() => !disabled && scrambleTo(label)}
-        >
-          <span ref={textRef} className="contact-btn__text">
-            {label}
-          </span>
-          <span className="contact-btn__arrow">→</span>
-        </button>
-      ) : (
-        <button
-          className="contact-btn"
-          onClick={onClick}
-          disabled={disabled}
-          onMouseEnter={() => !disabled && scrambleTo(hoverLabel)}
-          onMouseLeave={() => !disabled && scrambleTo(label)}
-        >
-          <span ref={textRef} className="contact-btn__text">
-            {label}
-          </span>
-          <div className="contact-btn__icon">
+      <button
+        className={`cbtn cbtn--${variant}${hovered ? " cbtn--hovered" : ""}`}
+        style={baseSize as React.CSSProperties}
+        onClick={onClick}
+        disabled={disabled}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {useCanvas && (
+          <canvas
+            ref={canvasRef}
+            className="cbtn__canvas"
+            width={400}
+            height={110}
+          />
+        )}
+
+        {isCream && <span className="cbtn__slide" />}
+
+        <span ref={textRef} className="cbtn__label">
+          {label}
+        </span>
+
+        {isLight && (
+          <span className="cbtn__arrow">
             <svg
-              width="16"
-              height="16"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#252525"
-              strokeWidth="2.8"
+              stroke="currentColor"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="13 6 19 12 13 18" />
             </svg>
-          </div>
-        </button>
-      )}
+          </span>
+        )}
+      </button>
     </>
   );
 }

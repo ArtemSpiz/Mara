@@ -1,3 +1,4 @@
+// hooks/useScramble.ts
 import { useRef, useCallback, useEffect } from "react";
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?#&";
@@ -6,11 +7,23 @@ export function useScramble(ref: React.RefObject<HTMLSpanElement | null>) {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const originalTextRef = useRef<string>("");
 
-  // Запам'ятовуємо оригінальний текст при маунті
+  // hooks/useScramble.ts
   useEffect(() => {
-    if (ref.current) {
-      originalTextRef.current = ref.current.textContent ?? "";
-    }
+    if (!ref.current) return;
+    originalTextRef.current = ref.current.textContent ?? "";
+
+    // Знаходимо найдовший текст через тимчасовий clone
+    const el = ref.current;
+    const original = el.textContent ?? "";
+
+    // Знімаємо фіксовану ширину щоб виміряти природню
+    el.style.width = "";
+    el.style.display = "inline-block";
+    el.style.whiteSpace = "nowrap";
+    el.style.overflow = "hidden";
+
+    const naturalWidth = el.getBoundingClientRect().width;
+    el.style.width = `${naturalWidth}px`;
   }, [ref]);
 
   const scrambleTo = useCallback(
@@ -18,7 +31,6 @@ export function useScramble(ref: React.RefObject<HTMLSpanElement | null>) {
       if (!ref.current) return;
       if (timerRef.current) clearInterval(timerRef.current);
 
-      // Якщо target не вказано — повертаємось до оригінального тексту
       const resolvedTarget = target ?? originalTextRef.current;
 
       let iter = 0;

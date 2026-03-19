@@ -5,6 +5,7 @@ import Image from "next/image";
 import BgBlogSlug from "@/public/BgBlogSlug.png";
 import logoFooter from "@/public/logoFooter.png";
 import { useEffect, useRef, useState } from "react";
+import ContactButton from "@/app/ui/ContactButton";
 
 function ReadingProgress({
   contentRef,
@@ -83,12 +84,7 @@ export default function BlogSlugInfo() {
             others.
           </div>
 
-          <button className="relative overflow-hidden border border-[#ECEDE3] py-2 px-2 w-full text-base text-[#222222] group">
-            <span className="relative z-10 transition font-medium duration-300 group-hover:text-[#FCF6EF]">
-              Contact Us
-            </span>
-            <span className="absolute inset-0 bg-[#ECEDE3] transition-transform duration-500 origin-right group-hover:scale-x-0"></span>
-          </button>
+          <ContactButton variant="cream" />
         </div>
       </div>
 
