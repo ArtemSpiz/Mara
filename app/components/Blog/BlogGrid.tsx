@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FilterMenu, FilterState, SortOption } from "@/app/ui/FilterMenu";
@@ -59,7 +59,10 @@ interface BlogGridProps {
 
 function BlogGridCard({ item }: { item: CaseStudy }) {
   return (
-    <Link href={`/blog/${item.slug}`} className="flex cursor-pointer flex-col gap-4">
+    <Link
+      href={`/blog/${item.slug}`}
+      className="flex cursor-pointer flex-col gap-4"
+    >
       <div className="overflow-hidden">
         <Image
           src={item.image}
@@ -123,8 +126,31 @@ export function BlogGrid({
     return paginateItems(allItems, page, itemsPerPage);
   }, [allItems, page, itemsPerPage]);
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const prevPageRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (prevPageRef.current === null) {
+      prevPageRef.current = page;
+      return;
+    }
+
+    if (prevPageRef.current !== page) {
+      prevPageRef.current = page;
+
+      if (sectionRef.current) {
+        const top =
+          sectionRef.current.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    }
+  }, [page]);
+
   return (
-    <section className="mx-auto px-12 max-w-[1800px] max-md:px-4 pt-24 max-md:pt-5 pb-16">
+    <section
+      ref={sectionRef}
+      className="mx-auto px-12 max-w-[1800px] max-md:px-4 pt-24 max-md:pt-5 pb-16"
+    >
       <div className="mb-12 max-md:mb-5 flex items-center justify-between gap-4">
         <div className="text-3xl font-sans text-[#151A23]">Posts</div>
 

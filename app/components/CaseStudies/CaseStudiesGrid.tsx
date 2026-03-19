@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CASE_STUDIES, type CaseCategory, type CaseStudy } from "./data";
 import {
   FilterMenu,
@@ -132,8 +132,37 @@ export function CaseStudiesGrid({
 
   const headingLabel = SORT_LABELS[filter.sort] ?? "Our Latest";
 
+  function getItemSpan(index: number): string {
+    const pattern = [2, 1, 1, 1, 1, 1, 2];
+    const col = pattern[index % pattern.length] ?? 1;
+    return col === 2 ? "md:col-span-2" : "md:col-span-1";
+  }
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const prevPageRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (prevPageRef.current === null) {
+      prevPageRef.current = page;
+      return;
+    }
+
+    if (prevPageRef.current !== page) {
+      prevPageRef.current = page;
+
+      if (sectionRef.current) {
+        const top =
+          sectionRef.current.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    }
+  }, [page]);
+
   return (
-    <section className="mx-auto max-w-[1800px] px-12 max-md:px-4 pt-16 max-md:pt-5 pb-16">
+    <section
+      ref={sectionRef}
+      className="mx-auto max-w-[1800px] px-12 max-md:px-4 pt-16 max-md:pt-5 pb-16"
+    >
       <div className="mb-12 max-md:mb-5 flex items-center justify-between gap-4">
         <div className="text-3xl font-sans text-[#151A23]">{headingLabel}</div>
         <FilterMenu right value={filter} onChange={onFilterChange} />
