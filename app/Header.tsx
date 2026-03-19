@@ -65,49 +65,136 @@ function ScrambleNavLink({
   );
 }
 
-export default function Header() {
-  const HeaderLinks = [
-    {
-      title: "Home",
-      href: "/",
-      subtitles: [
-        { label: "Pricing", href: "#pricing" },
-        { label: "About Us", href: "#about" },
-        { label: "Services", href: "#services" },
-      ],
-      icon: Icon1,
-    },
-    {
-      title: "Resources",
-      href: "#resources",
-      subtitles: [
-        { label: "Blog", href: "/blog" },
-        { label: "Rejected Concepts", href: "#rejected Concepts" },
-        { label: "Clients", href: "#clients" },
-        { label: "Tools", href: "#tools" },
-      ],
-      icon: Icon2,
-    },
-    {
-      title: "Work",
-      href: "/case-studies",
-      subtitles: [
-        { label: "Portfolio", href: "#Portfolio" },
-        { label: "Concepts", href: "#concepts" },
-      ],
-      icon: Icon3,
-    },
-    {
-      title: "Contact Us",
-      href: "/contact-us",
-      subtitles: [
-        { label: "Telegram", href: "#telegram" },
-        { label: "Calendly", href: "#calendly" },
-      ],
-      icon: Icon4,
-    },
-  ];
+type HeaderSubtitle = {
+  label: string;
+  href: string;
+};
 
+type HeaderLink = {
+  title: string;
+  href: string;
+  subtitles: HeaderSubtitle[];
+  icon: unknown;
+};
+
+const HEADER_LINKS: HeaderLink[] = [
+  {
+    title: "Home",
+    href: "/",
+    subtitles: [
+      { label: "Pricing", href: "#pricing" },
+      { label: "About Us", href: "#about" },
+      { label: "Services", href: "#services" },
+    ],
+    icon: Icon1,
+  },
+  {
+    title: "Resources",
+    href: "#resources",
+    subtitles: [
+      { label: "Blog", href: "/blog" },
+      { label: "Rejected Concepts", href: "#rejected Concepts" },
+      { label: "Clients", href: "#clients" },
+      { label: "Tools", href: "#tools" },
+    ],
+    icon: Icon2,
+  },
+  {
+    title: "Work",
+    href: "/case-studies",
+    subtitles: [
+      { label: "Portfolio", href: "#Portfolio" },
+      { label: "Concepts", href: "#concepts" },
+    ],
+    icon: Icon3,
+  },
+  {
+    title: "Contact Us",
+    href: "/contact-us",
+    subtitles: [
+      { label: "Telegram", href: "#telegram" },
+      { label: "Calendly", href: "#calendly" },
+    ],
+    icon: Icon4,
+  },
+];
+
+function DesktopNav({ links }: { links: HeaderLink[] }) {
+  return (
+    <div className="hidden md:flex gap-12">
+      {links.map((link) => (
+        <div key={link.title} className="flex flex-col gap-2 font-cera-pro">
+          <ScrambleNavLink
+            href={link.href}
+            label={link.title}
+            className="font-semibold text-[#351E1C] text-sm select-none"
+          />
+          <div className="flex flex-col gap-1">
+            {link.subtitles.map((subtitle) => (
+              <ScrambleLink
+                key={subtitle.label}
+                href={subtitle.href}
+                label={subtitle.label}
+                className={`text-sm transition-colors duration-200 ${
+                  subtitle.href.startsWith("#")
+                    ? "text-[#351E1C30] cursor-not-allowed"
+                    : "text-[#351E1C80] hover:text-[#351E1CFF]"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MobileMenu({
+  links,
+  onClose,
+}: {
+  links: HeaderLink[];
+  onClose: () => void;
+}) {
+  return (
+    <div className="z-50 absolute top-[50px] left-0 w-full flex flex-col gap-4 p-6 md:hidden transition-all duration-300">
+      {links.map((link, i) => (
+        <div
+          key={link.title}
+          className={`flex flex-col gap-2 pb-5 ${
+            i === links.length - 1
+              ? "border-0"
+              : "border-b border-[#0000001A]"
+          }`}
+        >
+          <div className="flex items-center w-full justify-between">
+            <ScrambleNavLink
+              href={link.href}
+              label={link.title}
+              className="font-semibold w-max text-[#351E1C] text-lg max-md:text-base"
+            />
+            <Image src={link.icon as any} alt="Icon" width={20} height={20} />
+          </div>
+          {link.subtitles.map((subtitle) => (
+            <ScrambleLink
+              key={subtitle.label}
+              href={subtitle.href}
+              label={subtitle.label}
+              className={`max-md:text-sm w-max transition-all duration-300 ${
+                subtitle.href.startsWith("#")
+                  ? "text-[#351E1C30] cursor-not-allowed"
+                  : "text-[#351E1C80] hover:text-[#351E1CFF] cursor-pointer"
+              }`}
+              onClick={onClose}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -132,69 +219,10 @@ export default function Header() {
         />
       </button>
 
-      {/* Desktop nav */}
-      <div className="hidden md:flex gap-12">
-        {HeaderLinks.map((link) => (
-          <div key={link.title} className="flex flex-col gap-2 font-cera-pro">
-            <ScrambleNavLink
-              href={link.href}
-              label={link.title}
-              className="font-semibold text-[#351E1C] text-sm select-none"
-            />
-            <div className="flex flex-col gap-1">
-              {link.subtitles.map((subtitle) => (
-                <ScrambleLink
-                  key={subtitle.label}
-                  href={subtitle.href}
-                  label={subtitle.label}
-                  className={`text-sm transition-colors duration-200 ${
-                    subtitle.href.startsWith("#")
-                      ? "text-[#351E1C30] cursor-not-allowed"
-                      : "text-[#351E1C80] hover:text-[#351E1CFF]"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+      <DesktopNav links={HEADER_LINKS} />
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="z-50 absolute top-[50px] left-0 w-full flex flex-col gap-4 p-6 md:hidden transition-all duration-300">
-          {HeaderLinks.map((link, i) => (
-            <div
-              key={link.title}
-              className={`flex flex-col gap-2 pb-5 ${
-                i === HeaderLinks.length - 1
-                  ? "border-0"
-                  : "border-b border-[#0000001A]"
-              }`}
-            >
-              <div className="flex items-center w-full justify-between">
-                <ScrambleNavLink
-                  href={link.href}
-                  label={link.title}
-                  className="font-semibold w-max text-[#351E1C] text-lg max-md:text-base"
-                />
-                <Image src={link.icon} alt="Icon" width={20} height={20} />
-              </div>
-              {link.subtitles.map((subtitle) => (
-                <ScrambleLink
-                  key={subtitle.label}
-                  href={subtitle.href}
-                  label={subtitle.label}
-                  className={`max-md:text-sm w-max transition-all duration-300 ${
-                    subtitle.href.startsWith("#")
-                      ? "text-[#351E1C30] cursor-not-allowed"
-                      : "text-[#351E1C80] hover:text-[#351E1CFF] cursor-pointer"
-                  }`}
-                  onClick={() => setMenuOpen(false)}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
+        <MobileMenu links={HEADER_LINKS} onClose={() => setMenuOpen(false)} />
       )}
     </header>
   );

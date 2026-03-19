@@ -1,24 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FilterMenu, FilterState, SortOption } from "@/app/ui/FilterMenu";
-import { CASE_STUDIES, CaseCategory, CaseStudy } from "../CaseStudies/data";
+import { CASE_STUDIES, CaseStudy } from "../CaseStudies/data";
 import { ViewToggle } from "@/app/ui/ViewToggle";
 
 function matchesFilter(item: CaseStudy, filter: FilterState): boolean {
   if (!filter.topics || filter.topics.length === 0) return true;
-  return filter.topics.includes(item.category as CaseCategory);
+  return filter.topics.includes(item.category);
 }
 
-const SORT_LABELS: Record<SortOption, string> = {
-  lasted: "Our Latest",
-  oldest: "Our Oldest",
-  popular: "Most Popular",
-  random: "Discover Random",
-  "a-z": "A → Z",
-};
+function filterItems(items: CaseStudy[], filter: FilterState): CaseStudy[] {
+  return items.filter((item) => matchesFilter(item, filter));
+}
 
 function sortItems(items: CaseStudy[], sort: SortOption): CaseStudy[] {
   const copy = [...items];
@@ -42,6 +38,15 @@ function sortItems(items: CaseStudy[], sort: SortOption): CaseStudy[] {
   }
 }
 
+function paginateItems(
+  items: CaseStudy[],
+  page: number,
+  itemsPerPage: number,
+): CaseStudy[] {
+  const start = (page - 1) * itemsPerPage;
+  return items.slice(start, start + itemsPerPage);
+}
+
 interface BlogGridProps {
   filter: FilterState;
   page: number;
@@ -50,6 +55,47 @@ interface BlogGridProps {
   viewMode: "grid" | "list";
   onFilterChange: (filter: FilterState) => void;
   onViewModeChange: (mode: "grid" | "list") => void;
+}
+
+function BlogGridCard({ item }: { item: CaseStudy }) {
+  return (
+    <Link href={`/blog/${item.slug}`} className="flex cursor-pointer flex-col gap-4">
+      <div className="overflow-hidden">
+        <Image
+          src={item.image}
+          alt=""
+          className="object-cover transition-transform duration-300 hover:scale-105"
+        />
+      </div>
+
+      <div className="flex flex-col gap-2 pt-4 border-t border-[#351E1C33]">
+        <div className="text-[#351E1C99] font-sans text-sm">{item.date}</div>
+        <div className="text-xl md:text-2xl font-normal text-[#351E1C]">
+          {item.title}
+        </div>
+        <div className="text-sm text-[#351E1CB2]">{item.text}</div>
+      </div>
+    </Link>
+  );
+}
+
+function BlogListRow({ item }: { item: CaseStudy }) {
+  return (
+    <div className="grid grid-cols-[200px_1fr_1fr_100px] items-center gap-4 w-full py-4 max-md:border-b max-md:pb-2 max-md:grid-cols-1 max-md:py-0 max-md:gap-2 border-[#151A2333]">
+      <div className="text-[#351E1C99] font-sans text-sm">{item.date}</div>
+      <div className="text-xl md:text-2xl font-normal text-[#351E1C]">
+        {item.title}
+      </div>
+      <div className="text-sm text-[#351E1CB2]">{item.text}</div>
+
+      <Link
+        href={`/blog/${item.slug}`}
+        className="text-[#151A23] cursor-pointer w-full justify-end flex text-sm underline font-sans"
+      >
+        Read
+      </Link>
+    </div>
+  );
 }
 
 export function BlogGrid({
@@ -64,7 +110,7 @@ export function BlogGrid({
   const listView = viewMode === "list";
 
   const allItems = useMemo(() => {
-    const filtered = CASE_STUDIES.filter((item) => matchesFilter(item, filter));
+    const filtered = filterItems(CASE_STUDIES, filter);
     return sortItems(filtered, filter.sort);
   }, [filter]);
 
@@ -74,8 +120,7 @@ export function BlogGrid({
   }, [allItems.length, itemsPerPage, onTotalPagesChange]);
 
   const items = useMemo(() => {
-    const start = (page - 1) * itemsPerPage;
-    return allItems.slice(start, start + itemsPerPage);
+    return paginateItems(allItems, page, itemsPerPage);
   }, [allItems, page, itemsPerPage]);
 
   return (
@@ -83,8 +128,8 @@ export function BlogGrid({
       <div className="mb-12 max-md:mb-5 flex items-center justify-between gap-4">
         <div className="text-3xl font-sans text-[#151A23]">Posts</div>
 
-        <div className="flex gap-2 items-center px-6 max-md:justify-between max-md:px-4 ">
-          <div className=" flex  items-start gap-4 ">
+        <div className="flex gap-2 items-center px-6 max-md:justify-between max-md:px-4">
+          <div className="flex items-start gap-4">
             <FilterMenu right value={filter} onChange={onFilterChange} />
           </div>
 
@@ -102,49 +147,13 @@ export function BlogGrid({
         {items.map((item, index) => (
           <div
             key={item.id}
-            className="group  relative animate-[fadeUp_0.45s_ease_both]"
+            className="group relative animate-[fadeUp_0.45s_ease_both]"
             style={{ animationDelay: `${index * 40}ms` }}
           >
-            {!listView && (
-              <Link
-                href={`/blog/${item.slug}`}
-                className="flex cursor-pointer flex-col gap-4"
-              >
-                <div className=" overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt=""
-                    className="object-cover transition-transform duration-300 hover:scale-105"
-                  />
-                </div>
-                <div className="flex flex-col gap-2 pt-4 border-t border-[#351E1C33]">
-                  <div className="text-[#351E1C99] font-sans text-sm">
-                    {item.date}
-                  </div>
-                  <div className="text-xl md:text-2xl font-normal text-[#351E1C]">
-                    {item.title}
-                  </div>
-                  <div className="text-sm text-[#351E1CB2]">{item.text}</div>
-                </div>
-              </Link>
-            )}
-
-            {listView && (
-              <div className="grid grid-cols-[200px_1fr_1fr_100px] max-md:border-b max-md:pb-2 border-[#151A2333] items-center gap-4 w-full  py-4 max-md:grid-cols-1 max-md:py-0 max-md:gap-2">
-                <div className="text-[#351E1C99] font-sans text-sm">
-                  {item.date}
-                </div>
-                <div className="text-xl md:text-2xl font-normal text-[#351E1C]">
-                  {item.title}
-                </div>
-                <div className="text-sm text-[#351E1CB2]">{item.text}</div>
-                <Link
-                  href={`/blog/${item.slug}`}
-                  className="text-[#151A23] cursor-pointer w-full justify-end flex text-sm underline font-sans cursor-pointer"
-                >
-                  Read
-                </Link>
-              </div>
+            {listView ? (
+              <BlogListRow item={item} />
+            ) : (
+              <BlogGridCard item={item} />
             )}
           </div>
         ))}

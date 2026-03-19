@@ -29,6 +29,325 @@ interface ContactSectionProps {
   close?: () => void;
 }
 
+const CONTACT_ICONS = [{ icon: Icon1 }, { icon: Icon2 }, { icon: Icon3 }];
+
+function ContactTitleBlock() {
+  return (
+    <div>
+      <h2 className="font-display text-[#252525] text-2xl leading-tight tracking-tight md:text-[32px]">
+        What problems
+        <br />
+        we solving
+      </h2>
+      <p className="mt-4 text-sm max-w-[422px] text-[#252525B2]">
+        At our core, we believe in delivering high-quality designs in days, not
+        weeks. This ensures that your project stays on track and progresses
+        smoothly, minimizing delays and maximizing efficiency.
+      </p>
+    </div>
+  );
+}
+
+function ContactLeftPanel() {
+  return (
+    <div className="relative overflow-hidden md:w-[750px] px-4 py-5 md:px-6 max-md:pb-0 md:py-12 text-white lg:px-12 md:border-r md:border-[#252525]">
+      <Image
+        src={Bg}
+        className="absolute bottom-0 right-0 w-full h-auto max-md:hidden"
+        alt=""
+      />
+
+      <div className="flex h-full flex-col justify-center gap-10">
+        <ContactTitleBlock />
+
+        <div className="flex gap-3 max-md:hidden">
+          {CONTACT_ICONS.map((card, i) => (
+            <div key={i} className="w-8 h-8">
+              <Image src={card.icon} alt="" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type ContactFieldProps = {
+  as: "input" | "textarea";
+  type?: string;
+  name: string;
+  value: string;
+  placeholder: string;
+  onChange: (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => void;
+  error?: string;
+  wrapperClassName?: string;
+  fieldClassName: string;
+};
+
+function ContactField({
+  as,
+  type,
+  name,
+  value,
+  placeholder,
+  onChange,
+  error,
+  wrapperClassName = "",
+  fieldClassName,
+}: ContactFieldProps) {
+  return (
+    <div className={wrapperClassName}>
+      {as === "input" ? (
+        <input
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={fieldClassName}
+        />
+      ) : (
+        <textarea
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={fieldClassName}
+        />
+      )}
+      {error && <p className="text-xs text-red-500">{error}</p>}
+    </div>
+  );
+}
+
+function ContactBudgetOptions({
+  budget,
+  onSelect,
+}: {
+  budget: BudgetOption;
+  onSelect: (next: BudgetOption) => void;
+}) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {BUDGET_OPTIONS.map((option) => {
+        const active = budget === option;
+        return (
+          <button
+            key={option}
+            type="button"
+            onClick={() => onSelect(option)}
+            className={`border px-4 py-2 text-[#252525] text-xs transition ${
+              active
+                ? "border-[#252525] bg-[#EBEBEB] font-medium"
+                : "border-[#25252580] hover:border-zinc-900 font-normal hover:text-zinc-900"
+            }`}
+          >
+            {option}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function ContactSourceSelect({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <select
+        name="source"
+        value={value}
+        onChange={onChange}
+        className="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-[#252525] outline-none ring-0"
+      >
+        <option value="">How did you hear about us?</option>
+        <option>Dribbble</option>
+        <option>Behance</option>
+        <option>Upwork</option>
+        <option>Google</option>
+        <option>Referral</option>
+        <option>AI</option>
+        <option>Other</option>
+      </select>
+    </div>
+  );
+}
+
+function ContactSubmitArea({
+  isSubmitting,
+  onSubmit,
+}: {
+  isSubmitting: boolean;
+  onSubmit: () => void;
+}) {
+  return (
+    <ContactButton
+      onClick={onSubmit}
+      disabled={isSubmitting}
+      label={isSubmitting ? "Sending..." : "Submit"}
+      hoverLabel={isSubmitting ? "Sending..." : "Submit"}
+      variant="light"
+    />
+  );
+}
+
+function ContactForm({
+  budget,
+  setBudget,
+  formData,
+  errors,
+  isSubmitting,
+  onChange,
+  onSubmit,
+}: {
+  budget: BudgetOption;
+  setBudget: (next: BudgetOption) => void;
+  formData: Omit<FormData, "budget">;
+  errors: Partial<Record<keyof FormData, string>>;
+  isSubmitting: boolean;
+  onChange: (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => void;
+  onSubmit: () => void;
+}) {
+  return (
+    <div className="space-y-7 w-full px-4 py-5 md:px-6 md:py-8 lg:py-14 lg:px-16 max-md:pt-0">
+      <div className="space-y-6">
+        <div className="grid gap-5 md:grid-cols-2">
+          <ContactField
+            as="input"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={onChange}
+            placeholder="Name*"
+            error={errors.name}
+            wrapperClassName="space-y-2"
+            fieldClassName="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
+          />
+
+          <ContactField
+            as="input"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={onChange}
+            placeholder="Email*"
+            error={errors.email}
+            wrapperClassName="space-y-1.5"
+            fieldClassName="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
+          />
+        </div>
+
+        <ContactField
+          as="input"
+          type="text"
+          name="company"
+          value={formData.company}
+          onChange={onChange}
+          placeholder="Company"
+          wrapperClassName="space-y-2"
+          fieldClassName="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
+        />
+      </div>
+
+      <div className="space-y-5">
+        <div className="flex flex-col gap-3">
+          <label className="text-sm leading-none font-normal text-[#252525]">
+            Budget range*
+          </label>
+          <ContactBudgetOptions budget={budget} onSelect={setBudget} />
+        </div>
+
+        <ContactField
+          as="textarea"
+          name="message"
+          value={formData.message}
+          onChange={onChange}
+          placeholder="Tell us about your project"
+          wrapperClassName="space-y-2"
+          fieldClassName="h-24 w-full resize-none border max-md:h-20 border-[#25252580] bg-transparent p-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533] focus:border-zinc-900"
+        />
+      </div>
+
+      <ContactSourceSelect value={formData.source} onChange={onChange} />
+
+      <ContactSubmitArea isSubmitting={isSubmitting} onSubmit={onSubmit} />
+    </div>
+  );
+}
+
+function ContactSectionContent({
+  isOverlay,
+  close,
+  budget,
+  setBudget,
+  formData,
+  errors,
+  isSubmitting,
+  onChange,
+  onSubmit,
+}: {
+  isOverlay: boolean;
+  close?: () => void;
+  budget: BudgetOption;
+  setBudget: (next: BudgetOption) => void;
+  formData: Omit<FormData, "budget">;
+  errors: Partial<Record<keyof FormData, string>>;
+  isSubmitting: boolean;
+  onChange: (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => void;
+  onSubmit: () => void;
+}) {
+  return (
+    <section
+      className={`flex max-md:flex-col bg-[#FFFFFA] md:bg-white max-md:gap-8 ${
+        isOverlay ? "border border-[#252525] shadow-lg" : ""
+      }`}
+    >
+      {isOverlay && (
+        <button
+          onClick={close}
+          className="absolute cursor-pointer top-4 right-4 z-10 text-[#252525] text-base leading-none"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+      )}
+
+      <ContactLeftPanel />
+
+      <ContactForm
+        budget={budget}
+        setBudget={setBudget}
+        formData={formData}
+        errors={errors}
+        isSubmitting={isSubmitting}
+        onChange={onChange}
+        onSubmit={onSubmit}
+      />
+    </section>
+  );
+}
+
 export function ContactSection({ close }: ContactSectionProps) {
   const [budget, setBudget] = useState<BudgetOption>("< $5,000");
   const [formData, setFormData] = useState<Omit<FormData, "budget">>({
@@ -43,8 +362,6 @@ export function ContactSection({ close }: ContactSectionProps) {
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
     {},
   );
-
-  const ContactIcons = [{ icon: Icon1 }, { icon: Icon2 }, { icon: Icon3 }];
 
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof FormData, string>> = {};
@@ -93,155 +410,17 @@ export function ContactSection({ close }: ContactSectionProps) {
   const isOverlay = !!close;
 
   const content = (
-    <section
-      className={`flex max-md:flex-col bg-[#FFFFFA] md:bg-white max-md:gap-8 ${isOverlay ? "border border-[#252525] shadow-lg" : ""}`}
-    >
-      {isOverlay && (
-        <button
-          onClick={close}
-          className="absolute cursor-pointer top-4 right-4 z-10 text-[#252525] text-base leading-none"
-          aria-label="Close"
-        >
-          ✕
-        </button>
-      )}
-
-      <div className="relative overflow-hidden md:w-[750px] px-4 py-5 md:px-6 max-md:pb-0 md:py-12 text-white lg:px-12 md:border-r md:border-[#252525]">
-        <Image
-          src={Bg}
-          className="absolute bottom-0 right-0 w-full h-auto max-md:hidden"
-          alt=""
-        />
-        <div className="flex h-full flex-col justify-center gap-10">
-          <div>
-            <h2 className="font-display text-[#252525] text-2xl leading-tight tracking-tight md:text-[32px]">
-              What problems
-              <br />
-              we solving
-            </h2>
-            <p className="mt-4 text-sm max-w-[422px] text-[#252525B2]">
-              At our core, we believe in delivering high-quality designs in
-              days, not weeks. This ensures that your project stays on track and
-              progresses smoothly, minimizing delays and maximizing efficiency.
-            </p>
-          </div>
-          <div className="flex gap-3 max-md:hidden">
-            {ContactIcons.map((card, i) => (
-              <div key={i} className="w-8 h-8">
-                <Image src={card.icon} alt="" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-7 w-full px-4 py-5 md:px-6 md:py-8 lg:py-14 lg:px-16 max-md:pt-0">
-        <div className="space-y-6">
-          <div className="grid gap-5 md:grid-cols-2">
-            <div className="space-y-2">
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Name*"
-                className="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
-              />
-              {errors.name && (
-                <p className="text-xs text-red-500">{errors.name}</p>
-              )}
-            </div>
-            <div className="space-y-1.5">
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email*"
-                className="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
-              />
-              {errors.email && (
-                <p className="text-xs text-red-500">{errors.email}</p>
-              )}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <input
-              type="text"
-              name="company"
-              value={formData.company}
-              onChange={handleChange}
-              placeholder="Company"
-              className="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533]"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-5">
-          <div className="flex flex-col gap-3">
-            <label className="text-sm leading-none font-normal text-[#252525]">
-              Budget range*
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {BUDGET_OPTIONS.map((option) => {
-                const active = budget === option;
-                return (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => setBudget(option)}
-                    className={`border  px-4 py-2 text-[#252525] text-xs transition ${
-                      active
-                        ? "border-[#252525] bg-[#EBEBEB] font-medium"
-                        : "border-[#25252580] hover:border-zinc-900 font-normal hover:text-zinc-900"
-                    }`}
-                  >
-                    {option}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              placeholder="Tell us about your project"
-              className="h-24 w-full resize-none border max-md:h-20 border-[#25252580] bg-transparent p-3 text-sm text-zinc-900 outline-none ring-0 placeholder:text-[#25252533] focus:border-zinc-900"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <select
-            name="source"
-            value={formData.source}
-            onChange={handleChange}
-            className="w-full border-0 border-b border-[#25252580] bg-transparent pb-3 text-sm text-[#252525] outline-none ring-0"
-          >
-            <option value="">How did you hear about us?</option>
-            <option>Dribbble</option>
-            <option>Behance</option>
-            <option>Upwork</option>
-            <option>Google</option>
-            <option>Referral</option>
-            <option>AI</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <ContactButton
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          label={isSubmitting ? "Sending..." : "Submit"}
-          hoverLabel={isSubmitting ? "Sending..." : "Submit"}
-          variant="light"
-        />
-      </div>
-    </section>
+    <ContactSectionContent
+      isOverlay={isOverlay}
+      close={close}
+      budget={budget}
+      setBudget={setBudget}
+      formData={formData}
+      errors={errors}
+      isSubmitting={isSubmitting}
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+    />
   );
 
   if (isOverlay) {
