@@ -4,11 +4,7 @@ import { useState } from "react";
 import { BlogGrid } from "./BlogGrid";
 import { ContactSection } from "../ContactSection";
 import { Pagination } from "@/app/ui/Pagination";
-import { FilterMenu, type FilterState } from "@/app/ui/FilterMenu";
-import Image from "next/image";
-import Grid from "@/public/Grid.png";
-import List from "@/public/List.png";
-import { ViewToggle } from "@/app/ui/ViewToggle";
+import type { FilterState } from "@/app/ui/FilterMenu";
 import { BlogFeatured } from "./BlogFeatured";
 import { BlogProject } from "./BlogProject";
 

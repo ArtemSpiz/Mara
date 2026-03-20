@@ -14,7 +14,6 @@ export function useScramble(ref: React.RefObject<HTMLSpanElement | null>) {
 
     // Знаходимо найдовший текст через тимчасовий clone
     const el = ref.current;
-    const original = el.textContent ?? "";
 
     // Знімаємо фіксовану ширину щоб виміряти природню
     el.style.width = "";

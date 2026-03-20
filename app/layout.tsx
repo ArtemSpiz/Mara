@@ -1,13 +1,28 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./Header";
-import { ceraPro, satoshi } from "./fonts";
+import { ceraPro, instrumentSerif, satoshi } from "./fonts";
 import Footer from "./Footer";
 
 export const metadata: Metadata = {
-  title: "Mara",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000"),
+  ),
+  title: {
+    default: "Mara",
+    template: "%s | Mara",
+  },
   description: "Mara",
+  openGraph: {
+    type: "website",
+    siteName: "Mara",
+    locale: "en_US",
+    title: "Mara",
+    description: "Mara",
+  },
 };
 
 export default function RootLayout({
@@ -17,19 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={`${ceraPro.variable} ${satoshi.variable}   antialiased`}>
+      <body
+        className={`${instrumentSerif.variable} ${ceraPro.variable} ${satoshi.variable} antialiased`}
+      >
         <Header />
         {children}
         <Footer />

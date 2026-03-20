@@ -1,8 +1,8 @@
 export const overlayBg = {
-  className: "bg-[#FFFFFAE5]/90 backdrop-blur-md backdrop-saturate-150",
+  className: "bg-mara-page/90 backdrop-blur-md backdrop-saturate-150",
 
   style: {
-    background: "rgba(255, 255, 250, 0.90)",
+    background: "color-mix(in srgb, var(--color-mara-page) 90%, transparent)",
     backdropFilter: "blur(12px) saturate(1.5)",
     WebkitBackdropFilter: "blur(12px) saturate(1.5)",
   } as React.CSSProperties,

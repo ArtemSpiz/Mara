@@ -1,22 +1,22 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FilterMenu, FilterState, SortOption } from "@/app/ui/FilterMenu";
-import { CASE_STUDIES, CaseStudy } from "../CaseStudies/data";
+import { BLOG_POSTS, type BlogPost } from "@/app/blog/data";
 import { ViewToggle } from "@/app/ui/ViewToggle";
 
-function matchesFilter(item: CaseStudy, filter: FilterState): boolean {
+function matchesFilter(item: BlogPost, filter: FilterState): boolean {
   if (!filter.topics || filter.topics.length === 0) return true;
   return filter.topics.includes(item.category);
 }
 
-function filterItems(items: CaseStudy[], filter: FilterState): CaseStudy[] {
+function filterItems(items: BlogPost[], filter: FilterState): BlogPost[] {
   return items.filter((item) => matchesFilter(item, filter));
 }
 
-function sortItems(items: CaseStudy[], sort: SortOption): CaseStudy[] {
+function sortItems(items: BlogPost[], sort: SortOption): BlogPost[] {
   const copy = [...items];
   switch (sort) {
     case "lasted":
@@ -39,10 +39,10 @@ function sortItems(items: CaseStudy[], sort: SortOption): CaseStudy[] {
 }
 
 function paginateItems(
-  items: CaseStudy[],
+  items: BlogPost[],
   page: number,
   itemsPerPage: number,
-): CaseStudy[] {
+): BlogPost[] {
   const start = (page - 1) * itemsPerPage;
   return items.slice(start, start + itemsPerPage);
 }
@@ -57,7 +57,7 @@ interface BlogGridProps {
   onViewModeChange: (mode: "grid" | "list") => void;
 }
 
-function BlogGridCard({ item }: { item: CaseStudy }) {
+function BlogGridCard({ item }: { item: BlogPost }) {
   return (
     <Link
       href={`/blog/${item.slug}`}
@@ -67,33 +67,36 @@ function BlogGridCard({ item }: { item: CaseStudy }) {
         <Image
           src={item.image}
           alt=""
+          width={item.image.width}
+          height={item.image.height}
+          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           className="object-cover transition-transform duration-300 hover:scale-105"
         />
       </div>
 
-      <div className="flex flex-col gap-2 pt-4 border-t border-[#351E1C33]">
-        <div className="text-[#351E1C99] font-sans text-sm">{item.date}</div>
-        <div className="text-xl md:text-2xl font-normal text-[#351E1C]">
+      <div className="flex flex-col gap-2 pt-4 border-t border-mara-soil/20">
+        <div className="text-mara-soil/60 font-sans text-sm">{item.date}</div>
+        <div className="text-xl md:text-2xl font-normal text-mara-soil">
           {item.title}
         </div>
-        <div className="text-sm text-[#351E1CB2]">{item.text}</div>
+        <div className="text-sm text-mara-soil/70">{item.text}</div>
       </div>
     </Link>
   );
 }
 
-function BlogListRow({ item }: { item: CaseStudy }) {
+function BlogListRow({ item }: { item: BlogPost }) {
   return (
-    <div className="grid grid-cols-[200px_1fr_1fr_100px] items-center gap-4 w-full py-4 max-md:border-b max-md:pb-2 max-md:grid-cols-1 max-md:py-0 max-md:gap-2 border-[#151A2333]">
-      <div className="text-[#351E1C99] font-sans text-sm">{item.date}</div>
-      <div className="text-xl md:text-2xl font-normal text-[#351E1C]">
+    <div className="grid grid-cols-[200px_1fr_1fr_100px] items-center gap-4 w-full py-4 max-md:border-b max-md:pb-2 max-md:grid-cols-1 max-md:py-0 max-md:gap-2 border-mara-midnight/20">
+      <div className="text-mara-soil/60 font-sans text-sm">{item.date}</div>
+      <div className="text-xl md:text-2xl font-normal text-mara-soil">
         {item.title}
       </div>
-      <div className="text-sm text-[#351E1CB2]">{item.text}</div>
+      <div className="text-sm text-mara-soil/70">{item.text}</div>
 
       <Link
         href={`/blog/${item.slug}`}
-        className="text-[#151A23] cursor-pointer w-full justify-end flex text-sm underline font-sans"
+        className="text-mara-midnight cursor-pointer w-full justify-end flex text-sm underline font-sans"
       >
         Read
       </Link>
@@ -113,7 +116,7 @@ export function BlogGrid({
   const listView = viewMode === "list";
 
   const allItems = useMemo(() => {
-    const filtered = filterItems(CASE_STUDIES, filter);
+    const filtered = filterItems(BLOG_POSTS, filter);
     return sortItems(filtered, filter.sort);
   }, [filter]);
 
@@ -152,7 +155,7 @@ export function BlogGrid({
       className="mx-auto px-12 max-w-[1800px] max-md:px-4 pt-24 max-md:pt-5 pb-16"
     >
       <div className="mb-12 max-md:mb-5 flex items-center justify-between gap-4">
-        <div className="text-3xl font-sans text-[#151A23]">Posts</div>
+        <div className="text-3xl font-sans text-mara-midnight">Posts</div>
 
         <div className="flex gap-2 items-center px-6 max-md:justify-between max-md:px-4">
           <div className="flex items-start gap-4">

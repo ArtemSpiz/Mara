@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FilterMenu, type FilterState } from "@/app/ui/FilterMenu";
+import type { FilterState } from "@/app/ui/FilterMenu";
 import { CaseStudiesGrid } from "./CaseStudiesGrid";
 import { ContactSection } from "../ContactSection";
 import { Pagination } from "@/app/ui/Pagination";
@@ -29,7 +29,7 @@ export function CaseStudiesPage() {
           Bring bold ideas{" "}
           <em className="italic font-instrument-serif">to life</em>
         </h1>
-        <p className="mt-4 max-w-xl text-sm font-sans leading-relaxed text-[#151A23E5]">
+        <p className="mt-4 max-w-xl text-sm font-sans leading-relaxed text-mara-midnight/90">
           Imagine and build experiences, products and businesses that disrupt
           the status quo, win hearts and realize the future.
         </p>

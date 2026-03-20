@@ -28,6 +28,19 @@ export default function ContactButton({
   const [hovered, setHovered] = useState(false);
   const progressRef = useRef(0);
 
+  const fillWaveDarkRef = useRef("#252525");
+  const fillWaveLightRef = useRef("#fcf6ef");
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const root = document.documentElement;
+    const cs = getComputedStyle(root);
+    const ch = cs.getPropertyValue("--color-mara-charcoal").trim();
+    const cr = cs.getPropertyValue("--color-mara-cream-warm").trim();
+    if (ch) fillWaveDarkRef.current = ch;
+    if (cr) fillWaveLightRef.current = cr;
+  }, []);
+
   useEffect(() => {
     if (!useCanvas) return;
     const canvas = canvasRef.current;
@@ -65,7 +78,9 @@ export default function ContactButton({
       }
       ctx.lineTo(w, h);
       ctx.closePath();
-      ctx.fillStyle = isLight ? "#252525" : "#FCF6EF";
+      ctx.fillStyle = isLight
+        ? fillWaveDarkRef.current
+        : fillWaveLightRef.current;
       ctx.fill();
 
       rafRef.current = requestAnimationFrame(animate);
@@ -129,14 +144,14 @@ export default function ContactButton({
           cursor: pointer;
           outline: none;
           overflow: hidden;
-          border: 1px solid #252525;
+          border: 1px solid var(--color-mara-charcoal);
           background: transparent;
           transition: border-color 0.3s ease;
         }
         .cbtn:disabled { opacity: 0.45; cursor: not-allowed; }
-        .cbtn--dark { background: #252525; }
-        .cbtn--light { background: #ffffff; }
-        .cbtn--cream { background: transparent; border-color: #ECEDE3; }
+        .cbtn--dark { background: var(--color-mara-charcoal); }
+        .cbtn--light { background: var(--color-mara-white); }
+        .cbtn--cream { background: transparent; border-color: var(--color-mara-mist); }
 
         .cbtn__canvas {
           position: absolute;
@@ -155,13 +170,13 @@ export default function ContactButton({
           font-weight: 400;
           letter-spacing: 0.01em;
         }
-        .cbtn--dark .cbtn__label { color: #FCF6EF; font-size: 16px; }
-        .cbtn--light .cbtn__label { color: #252525; font-size: 14px; }
-        .cbtn--cream .cbtn__label { color: #222222; font-size: 16px; font-weight: 500; }
+        .cbtn--dark .cbtn__label { color: var(--color-mara-cream-warm); font-size: 16px; }
+        .cbtn--light .cbtn__label { color: var(--color-mara-charcoal); font-size: 14px; }
+        .cbtn--cream .cbtn__label { color: var(--color-mara-ink-strong); font-size: 16px; font-weight: 500; }
 
-        .cbtn--dark.cbtn--hovered .cbtn__label { color: #252525; }
-        .cbtn--light.cbtn--hovered .cbtn__label { color: #FCF6EF; }
-        .cbtn--cream.cbtn--hovered .cbtn__label { color: #FCF6EF; }
+        .cbtn--dark.cbtn--hovered .cbtn__label { color: var(--color-mara-charcoal); }
+        .cbtn--light.cbtn--hovered .cbtn__label { color: var(--color-mara-cream-warm); }
+        .cbtn--cream.cbtn--hovered .cbtn__label { color: var(--color-mara-cream-warm); }
 
         .cbtn__arrow {
           position: relative;
@@ -170,16 +185,16 @@ export default function ContactButton({
           align-items: center;
           transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.15s ease;
         }
-        .cbtn--dark .cbtn__arrow { color: #FCF6EF; }
-        .cbtn--light .cbtn__arrow { color: #252525; }
-        .cbtn--dark.cbtn--hovered .cbtn__arrow { color: #252525; }
-        .cbtn--light.cbtn--hovered .cbtn__arrow { color: #FCF6EF; }
+        .cbtn--dark .cbtn__arrow { color: var(--color-mara-cream-warm); }
+        .cbtn--light .cbtn__arrow { color: var(--color-mara-charcoal); }
+        .cbtn--dark.cbtn--hovered .cbtn__arrow { color: var(--color-mara-charcoal); }
+        .cbtn--light.cbtn--hovered .cbtn__arrow { color: var(--color-mara-cream-warm); }
 
         /* cream slide overlay */
         .cbtn__slide {
           position: absolute;
           inset: 0;
-          background: #ECEDE3;
+          background: var(--color-mara-mist);
           z-index: 1;
           transform-origin: right;
           transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
@@ -204,9 +219,9 @@ export default function ContactButton({
         .cbtn:hover .cbtn__corner--tr { transform: translate(0, 0); }
         .cbtn:hover .cbtn__corner--bl { transform: translate(0, 0); }
         .cbtn:hover .cbtn__corner--br { transform: translate(0, 0); }
-        .cbtn--dark .cbtn__corner { color: #FCF6EF; }
-        .cbtn--light .cbtn__corner { color: #252525; }
-        .cbtn--cream .cbtn__corner { color: #222222; }
+        .cbtn--dark .cbtn__corner { color: var(--color-mara-cream-warm); }
+        .cbtn--light .cbtn__corner { color: var(--color-mara-charcoal); }
+        .cbtn--cream .cbtn__corner { color: var(--color-mara-ink-strong); }
       `}</style>
 
       <button

@@ -1,28 +1,67 @@
 @import "tailwindcss";
-
-:root {
-  --background: #fffffa;
-  --foreground: #242424;
-}
-
-body {
-  background-color: #fffffa;
-  color: var(--foreground);
-  font-family: var(--font-satoshi);
-}
-
-html {
-  background-color: #fffffa;
-}
+@config "../tailwind.config.mjs";
 
 @theme inline {
   --font-sans: var(--font-satoshi);
   --font-display: var(--font-cera-pro);
-  --font-instrument-serif: "Instrument Serif", serif;
+
+  /* Палітра Mara — єдине джерело для bg-/text-/border- утиліт */
+  --color-mara-page: #fffffa;
+  --color-mara-ink: #242424;
+  --color-mara-soil: #351e1c;
+  --color-mara-midnight: #151a23;
+  --color-mara-slate: #32404f;
+  --color-mara-footer: #232323;
+  --color-mara-charcoal: #252525;
+  --color-mara-panel: #2c2c2c;
+  --color-mara-mist: #ecede3;
+  --color-mara-zinc-900: #18181b;
+  --color-mara-zinc-700: #3f3f46;
+  --color-mara-zinc-100: #f4f4f5;
+  --color-mara-white: #ffffff;
+  --color-mara-soft: #ebebeb;
+  --color-mara-canvas-muted: #edede4;
+  --color-mara-knob: #1c0f0a;
+  --color-mara-border-hairline: #d9d9d9;
+  --color-mara-icon-muted: #8a9ba8;
+  --color-mara-accent-blue: #2185d0;
+  --color-mara-accent-cyan: #79f2ff;
+  --color-mara-accent-teal: #5ce1e6;
+  --color-mara-slate-deep: #374a5f;
+  --color-mara-cream-warm: #fcf6ef;
+  --color-mara-ink-strong: #222222;
+
+  /* Типографіка (кастомний масштаб; розширюйте за потреби) */
+  --text-mara-hero: clamp(2.25rem, 6vw, 3.75rem);
+  --text-mara-hero-accent: clamp(2.5rem, 7vw, 4.5rem);
+  --text-mara-lead: clamp(1rem, 2.5vw, 1.25rem);
+  --text-mara-blog-title: clamp(2.25rem, 4vw, 3rem);
+  --text-mara-section-title: clamp(2.25rem, 4vw, 3.5rem);
+}
+
+/* Аліаси для не-Tailwind контекстів (inline styles, сторонні скрипти) */
+:root {
+  --background: var(--color-mara-page);
+  --foreground: var(--color-mara-ink);
+}
+
+body {
+  background-color: var(--color-mara-page);
+  color: var(--color-mara-ink);
+  font-family: var(--font-satoshi);
+}
+
+html {
+  background-color: var(--color-mara-page);
+}
+
+/* Значення --font-instrument-serif задає next/font на body; fallback для utility. */
+@utility font-instrument-serif {
+  font-family: var(--font-instrument-serif), ui-serif, Georgia, serif;
 }
 
 .overlayBg {
-  background: rgba(37, 37, 37, 0.6);
+  background: color-mix(in srgb, var(--color-mara-charcoal) 60%, transparent);
   backdrop-filter: blur(4px);
 }
 

@@ -1,12 +1,13 @@
 "use client";
 
 interface ArrowLeftProps {
+  /** За замовчуванням `currentColor` — керуйте кольором через `className` батька (`text-mara-*`). */
   color?: string;
   className?: string;
 }
 
 export default function ArrowLeft({
-  color = "#000",
+  color = "currentColor",
   className,
 }: ArrowLeftProps) {
   return (

@@ -54,14 +54,14 @@ export function ContinueReadingCarousel<TItem extends ContinueReadingItem>({
   return (
     <section className="mx-auto w-[95vw] overflow-hidden max-md:py-5 py-20">
       <div className="flex items-center justify-between mb-8 px-12 max-md:px-4">
-        <div className="font-sans text-3xl max-md:text-2xl text-[#151A23]">
+        <div className="font-sans text-3xl max-md:text-2xl text-mara-midnight">
           {heading}
         </div>
 
         <div className="flex items-center gap-4 max-md:hidden">
-          <div className="w-full h-px min-w-[275px] bg-[#32404F20] relative">
+          <div className="w-full h-px min-w-[275px] bg-mara-slate/15 relative">
             <div
-              className="absolute left-0 top-0 h-full bg-[#2185D0] transition-all duration-150"
+              className="absolute left-0 top-0 h-full bg-mara-accent-blue transition-all duration-150"
               style={{ width: `${progress * 100}%` }}
             />
           </div>
@@ -73,7 +73,7 @@ export function ContinueReadingCarousel<TItem extends ContinueReadingItem>({
           >
             <span
               className={` text-lg ml-3 leading-none ${
-                progress == 0 ? " text-[#32404F95]" : "text-[#151A23]"
+                progress == 0 ? " text-mara-slate/60" : "text-mara-midnight"
               }`}
             >
               ←
@@ -87,7 +87,7 @@ export function ContinueReadingCarousel<TItem extends ContinueReadingItem>({
           >
             <span
               className={` text-lg leading-none ${
-                progress >= 1 ? " text-[#32404F95]" : "text-[#151A23]"
+                progress >= 1 ? " text-mara-slate/60" : "text-mara-midnight"
               }`}
             >
               →
@@ -115,18 +115,21 @@ export function ContinueReadingCarousel<TItem extends ContinueReadingItem>({
                 <Image
                   src={item.image}
                   alt=""
+                  width={item.image.width}
+                  height={item.image.height}
+                  sizes="(min-width: 1024px) 428px, (min-width: 768px) 260px, 100vw"
                   className="object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
 
-              <div className="flex flex-col gap-2 pt-4 border-t border-[#351E1C33]">
-                <div className="text-[#351E1C99] font-sans text-sm">
+              <div className="flex flex-col gap-2 pt-4 border-t border-mara-soil/20">
+                <div className="text-mara-soil/60 font-sans text-sm">
                   {item.date}
                 </div>
-                <div className="text-xl md:text-2xl font-normal text-[#351E1C]">
+                <div className="text-xl md:text-2xl font-normal text-mara-soil">
                   {item.title}
                 </div>
-                <div className="text-sm text-[#351E1CB2]">{item.subtitle}</div>
+                <div className="text-sm text-mara-soil/70">{item.subtitle}</div>
               </div>
             </div>
           </Link>

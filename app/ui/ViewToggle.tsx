@@ -19,10 +19,10 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
   }
 
   return (
-    <div className="relative flex items-center bg-[#EDEDE4] max-md:bg-[#EDEDE466] rounded-full p-1 gap-1 max-md:p-1 shadow-[inset_0px_0px_3.33px_0px_#00000026]">
+    <div className="relative flex items-center bg-mara-canvas-muted max-md:bg-mara-canvas-muted/40 rounded-full p-1 gap-1 max-md:p-1 shadow-[inset_0px_0px_3.33px_0px_rgb(0_0_0/0.15)]">
       {/* Sliding background circle */}
       <div
-        className="absolute top-1 max-md:top-1 w-7 h-7 rounded-full bg-[#1C0F0A] shadow-md transition-transform duration-300 ease-in-out"
+        className="absolute top-1 max-md:top-1 w-7 h-7 rounded-full bg-mara-knob shadow-md transition-transform duration-300 ease-in-out"
         style={{
           transform: mode === "grid" ? "translateX(0px)" : "translateX(32px)",
         }}
@@ -42,7 +42,11 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             height="5"
             rx="1"
             fill="none"
-            stroke={mode === "grid" ? "white" : "#8A9BA8"}
+            stroke={
+              mode === "grid"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             strokeWidth="1.5"
             className="transition-colors duration-300"
           />
@@ -53,7 +57,11 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             height="5"
             rx="1"
             fill="none"
-            stroke={mode === "grid" ? "white" : "#8A9BA8"}
+            stroke={
+              mode === "grid"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             strokeWidth="1.5"
             className="transition-colors duration-300"
           />
@@ -64,7 +72,11 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             height="5"
             rx="1"
             fill="none"
-            stroke={mode === "grid" ? "white" : "#8A9BA8"}
+            stroke={
+              mode === "grid"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             strokeWidth="1.5"
             className="transition-colors duration-300"
           />
@@ -75,7 +87,11 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             height="5"
             rx="1"
             fill="none"
-            stroke={mode === "grid" ? "white" : "#8A9BA8"}
+            stroke={
+              mode === "grid"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             strokeWidth="1.5"
             className="transition-colors duration-300"
           />
@@ -93,7 +109,11 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             cx="1.5"
             cy="2"
             r="1.5"
-            fill={mode === "list" ? "white" : "#8A9BA8"}
+            fill={
+              mode === "list"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             className="transition-colors duration-300"
           />
           <rect
@@ -102,14 +122,22 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             width="11"
             height="2"
             rx="1"
-            fill={mode === "list" ? "white" : "#8A9BA8"}
+            fill={
+              mode === "list"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             className="transition-colors duration-300"
           />
           <circle
             cx="1.5"
             cy="7"
             r="1.5"
-            fill={mode === "list" ? "white" : "#8A9BA8"}
+            fill={
+              mode === "list"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             className="transition-colors duration-300"
           />
           <rect
@@ -118,14 +146,22 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             width="11"
             height="2"
             rx="1"
-            fill={mode === "list" ? "white" : "#8A9BA8"}
+            fill={
+              mode === "list"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             className="transition-colors duration-300"
           />
           <circle
             cx="1.5"
             cy="12"
             r="1.5"
-            fill={mode === "list" ? "white" : "#8A9BA8"}
+            fill={
+              mode === "list"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             className="transition-colors duration-300"
           />
           <rect
@@ -134,7 +170,11 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
             width="11"
             height="2"
             rx="1"
-            fill={mode === "list" ? "white" : "#8A9BA8"}
+            fill={
+              mode === "list"
+                ? "var(--color-mara-white)"
+                : "var(--color-mara-icon-muted)"
+            }
             className="transition-colors duration-300"
           />
         </svg>

@@ -78,12 +78,12 @@ export function FilterMenu({ value, onChange, right }: Props) {
       <button
         type="button"
         onClick={togglePanel}
-        className="inline-flex cursor-pointer items-center gap-1.5 px-3 py-1.5 text-base font-medium text-zinc-900 max-md:px-0"
+        className="inline-flex cursor-pointer items-center gap-1.5 px-3 py-1.5 text-base font-medium text-mara-zinc-900 max-md:px-0"
       >
-        <Image src={Filter} alt="" width={16} height={16} />
+        <Image src={Filter} alt="" width={16} height={16} sizes="16px" />
         <span>Filter & Sort</span>
         {appliedCount > 0 && (
-          <span className="inline-flex min-w-4 items-center justify-center rounded-[4px] bg-zinc-800 px-1 text-[9px] font-bold text-white">
+          <span className="inline-flex min-w-4 items-center justify-center rounded-[4px] bg-mara-zinc-900 px-1 text-[9px] font-bold text-mara-white">
             {appliedCount}
           </span>
         )}
@@ -92,6 +92,7 @@ export function FilterMenu({ value, onChange, right }: Props) {
           alt=""
           width={16}
           height={16}
+          sizes="16px"
           className={`transition-all duration-300 ease-in-out ${open ? "-rotate-180" : ""}`}
         />
       </button>
@@ -113,7 +114,7 @@ export function FilterMenu({ value, onChange, right }: Props) {
         <div className="grid grid-cols-2 ">
           {/* Sort By column */}
           <div className="px-6 py-6">
-            <div className="mb-3 text-sm font-medium uppercase text-[#351E1C80]">
+            <div className="mb-3 text-sm font-medium uppercase text-mara-soil/50">
               Sort By
             </div>
             <div className="flex flex-col gap-0.5">
@@ -126,12 +127,12 @@ export function FilterMenu({ value, onChange, right }: Props) {
                     onClick={() => handleSortClick(sortVal)}
                     className={`relative cursor-pointer font-normal flex h-8 max-md:h-6 w-full items-center rounded-md px-3 text-left text-[13px] transition-all ${
                       selected
-                        ? " text-[#351E1C] font-medium opacity-100"
-                        : " text-[#351E1C80] opacity-90 hover:opacity-100"
+                        ? " text-mara-soil font-medium opacity-100"
+                        : " text-mara-soil/50 opacity-90 hover:opacity-100"
                     }`}
                   >
                     {selected && (
-                      <span className="absolute left-1 h-3.5 w-0.5 -translate-x-0.5 rounded-full bg-[#79F2FF]" />
+                      <span className="absolute left-1 h-3.5 w-0.5 -translate-x-0.5 rounded-full bg-mara-accent-cyan" />
                     )}
                     <span className="pl-1">{label}</span>
                   </button>
@@ -142,7 +143,7 @@ export function FilterMenu({ value, onChange, right }: Props) {
 
           {/* Topics column */}
           <div className="px-6 py-6">
-            <div className="mb-3 text-sm font-medium uppercase text-[#351E1C80]">
+            <div className="mb-3 text-sm font-medium uppercase text-mara-soil/50">
               Topics
             </div>
             <div className="flex flex-col gap-0.5">
@@ -155,12 +156,12 @@ export function FilterMenu({ value, onChange, right }: Props) {
                     onClick={() => handleTopicClick(option)}
                     className={`relative cursor-pointer flex h-8 max-md:h-6 w-full items-center rounded-md px-3 text-left text-[13px] transition-all ${
                       selected
-                        ? " text-[#351E1C] font-medium opacity-100"
-                        : " text-[#351E1C80] opacity-90 hover:opacity-100"
+                        ? " text-mara-soil font-medium opacity-100"
+                        : " text-mara-soil/50 opacity-90 hover:opacity-100"
                     }`}
                   >
                     {selected && (
-                      <span className="absolute left-1 h-3.5 w-0.5 -translate-x-0.5 rounded-full bg-[#79F2FF]" />
+                      <span className="absolute left-1 h-3.5 w-0.5 -translate-x-0.5 rounded-full bg-mara-accent-cyan" />
                     )}
                     <span className="pl-1">{option}</span>
                   </button>

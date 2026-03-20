@@ -14,7 +14,7 @@ export default function Socials() {
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          border: 1px solid #151A23;
+          border: 1px solid var(--color-mara-midnight);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -28,7 +28,7 @@ export default function Socials() {
           position: absolute;
           inset: 0;
           border-radius: 50%;
-          background: #151A23;
+          background: var(--color-mara-midnight);
           transform: scale(0);
           transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1);
         }
@@ -58,6 +58,7 @@ export default function Socials() {
               alt=""
               width={16}
               height={16}
+              sizes="16px"
               className="social-btn__icon"
             />
           </div>

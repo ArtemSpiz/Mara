@@ -15,43 +15,37 @@ function matchesFilter(item: CaseStudy, filter: FilterState): boolean {
   return filter.topics.includes(item.category as CaseCategory);
 }
 
-function getItemSpan(index: number): string {
-  const pattern = [2, 1, 1, 1, 1, 1, 2] as const;
-  const col = pattern[index % pattern.length] ?? 1;
-  return col === 2 ? "md:col-span-2" : "md:col-span-1";
-}
-
 function CaseStudiesGridCard({ item }: { item: CaseStudy }) {
   return (
     <div className="space-y-2">
-      <div className="text-xl md:text-2xl font-normal text-[#151A23]">
+      <div className="text-xl md:text-2xl font-normal text-mara-midnight">
         {item.title}
       </div>
-      <div className="text-sm text-[#151A23B2]">{item.subtitle}</div>
+      <div className="text-sm text-mara-midnight/70">{item.subtitle}</div>
     </div>
   );
 }
 
 function CaseStudiesListRow({ item }: { item: CaseStudy }) {
   return (
-    <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(0,1.2fr)] items-center gap-6 border-b border-zinc-200/70 pb-4 pt-2 md:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)_auto]">
+    <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(0,1.2fr)] items-center gap-6 border-b border-mara-zinc-100 pb-4 pt-2 md:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)_auto]">
       <div className="space-y-2">
-        <div className="max-w-xl text-[26px] font-medium leading-tight tracking-tight text-zinc-900">
+        <div className="max-w-xl text-[26px] font-medium leading-tight tracking-tight text-mara-zinc-900">
           {item.title}
         </div>
-        <div className="max-w-xl text-[13px] leading-snug text-zinc-500">
+        <div className="max-w-xl text-[13px] leading-snug text-mara-zinc-700/80">
           {item.excerpt}
         </div>
       </div>
-      <div className="flex items-center justify-start gap-4 text-[12px] text-zinc-500 md:justify-end">
+      <div className="flex items-center justify-start gap-4 text-[12px] text-mara-zinc-700/80 md:justify-end">
         <span>{item.date}</span>
-        <span className="inline-flex items-center rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-medium text-zinc-700">
+        <span className="inline-flex items-center rounded-full bg-mara-zinc-100 px-2 py-0.5 text-[11px] font-medium text-mara-zinc-700">
           {item.category}
         </span>
       </div>
       <a
         href="#"
-        className="inline-flex items-center gap-1 text-[13px] font-medium text-zinc-900 hover:opacity-70"
+        className="inline-flex items-center gap-1 text-[13px] font-medium text-mara-zinc-900 hover:opacity-70"
       >
         Read
         <svg
@@ -164,7 +158,7 @@ export function CaseStudiesGrid({
       className="mx-auto max-w-[1800px] px-12 max-md:px-4 pt-16 max-md:pt-5 pb-16"
     >
       <div className="mb-12 max-md:mb-5 flex items-center justify-between gap-4">
-        <div className="text-3xl font-sans text-[#151A23]">{headingLabel}</div>
+        <div className="text-3xl font-sans text-mara-midnight">{headingLabel}</div>
         <FilterMenu right value={filter} onChange={onFilterChange} />
       </div>
 
@@ -186,6 +180,9 @@ export function CaseStudiesGrid({
               <Image
                 src={item.image}
                 alt=""
+                width={item.image.width}
+                height={item.image.height}
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 className="object-cover max-h-[250px] 2xl:max-h-[300px] w-full transition-transform duration-300 hover:scale-105"
               />
             </div>

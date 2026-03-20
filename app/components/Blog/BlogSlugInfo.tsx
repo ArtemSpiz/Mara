@@ -36,13 +36,13 @@ function ReadingProgress({
 
   return (
     <div className="flex items-center gap-2 w-full max-md:hidden">
-      <div className="relative flex-1 h-[2px] bg-[#151A23]">
+      <div className="relative flex-1 h-[2px] bg-mara-midnight">
         <div
-          className="absolute top-0 left-0 h-full bg-[#5CE1E6] transition-all duration-200"
+          className="absolute top-0 left-0 h-full bg-mara-accent-teal transition-all duration-200"
           style={{ width: `${progress}%` }}
         />
       </div>
-      <span className="text-[#32404F] font-sans text-sm font-medium whitespace-nowrap">
+      <span className="text-mara-slate font-sans text-sm font-medium whitespace-nowrap">
         {progress}%
       </span>
     </div>
@@ -55,19 +55,17 @@ function BlogSlugSidebar({
   contentRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
-    <div className="flex flex-col gap-6 max-md:relative sticky top-5 self-start max-md:border-b max-md:w-full border-[#151A231A] max-md:pb-5">
+    <div className="flex flex-col gap-6 max-md:relative sticky top-5 self-start max-md:border-b max-md:w-full border-mara-midnight/10 max-md:pb-5">
       <div className="flex flex-col gap-4">
         <ReadingProgress contentRef={contentRef} />
 
-        <div className="text-[#32404F] font-sans ">12312312</div>
-
         <div className="font-sans text-sm">
-          <div className="text-[#151A23]">Author: Theresa W.</div>
-          <div className="text-[#151A2380]">UX Researcher</div>
+          <div className="text-mara-midnight">Author: Theresa W.</div>
+          <div className="text-mara-midnight/50">UX Researcher</div>
         </div>
 
         <div className="max-md:flex max-sm:gap-2 items-center">
-          <div className="text-[#374A5F] font-sans text-sm sm:mb-1">
+          <div className="text-mara-slate-deep font-sans text-sm sm:mb-1">
             Share
           </div>
           <Socials />
@@ -78,13 +76,13 @@ function BlogSlugSidebar({
         className="bg-cover bg-right px-4 py-8 flex flex-col w-[200px] gap-4 max-md:hidden"
         style={{ backgroundImage: `url(${BgBlogSlug.src})` }}
       >
-        <Image src={logoFooter} width={60} height={12} alt="" />
+        <Image src={logoFooter} width={60} height={12} alt="" sizes="60px" />
 
-        <div className="font-sans text-xl leading-none font-bold text-[#ECEDE3]">
+        <div className="font-sans text-xl leading-none font-bold text-mara-mist">
           Work with the top design agency
         </div>
 
-        <div className="font-sans text-xs text-[#ECEDE3]">
+        <div className="font-sans text-xs text-mara-mist">
           100+ Clients. Halborn, Hearst, Delphyr, AlivedX, Wardem, GMX and
           others.
         </div>
@@ -108,7 +106,7 @@ function BlogArticleContent({
   return (
     <div
       ref={contentRef}
-      className="flex flex-col gap-3 font-sans max-md:pt-4 text-base text-[#151A23]"
+      className="flex flex-col gap-3 font-sans max-md:pt-4 text-base text-mara-midnight"
     >
       {ARTICLE_PARAGRAPHS.map((text, idx) => (
         <span key={idx}>{text}</span>
